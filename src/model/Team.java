@@ -13,13 +13,12 @@ public class Team{
 	private Installations intallationsB;
 	private Coach[][] offices;
 	private MainCoach main;
-	private AssistantCoach assistant;
+	private AssistantCoach[] assistant;
 	private Players[] player;
 
 	//Atributes
 	private String name;
 	private int countMain;
-	private int countAss;
 
 	//Methods
 	/** 
@@ -30,8 +29,8 @@ public class Team{
 	public Team(String name){
 		this.name = name;
 		countMain = 0;
-		countAss = 0;
 		player = new Players[25];
+		assistant = new AssistantCoach[3];
 		formationA = new ArrayList<Formation>();
 		formationB = new ArrayList<Formation>();
 	 	Coach[][] offices = new Coach[MAX_OFFICE][MAX_OFFICE];
@@ -47,10 +46,23 @@ public class Team{
 
 	public boolean verifyAss(){
 		boolean stop = false;
-		if(countMain < 4){
+		if(assistant[3] != null){
 			stop = true; 
 		}
 		return stop; 
+	}
+
+	public int findAss(){
+		boolean exit = true;
+		int i = 0, position = 0;
+		while(exit && i<assistant.length){
+			if(assistant[i] == null){
+				position = i;
+				exit = false;
+			}
+			i++;
+		}
+		return position;
 	}
 
 	public MainCoach addCoach(String name, String id, int salary,int years,int amountTeams,String championships[]){ 
@@ -59,9 +71,11 @@ public class Team{
 		return obj;
 	}
 
-	public AssistantCoach addAss(String name, String id, int salary,int years,int master){ 
-		AssistantCoach obj = new AssistantCoach(name, id, salary,years,);
-		countMain += 1;
+	public AssistantCoach addAss(String name, String id, int salary,int years,int opt,int master){ 
+		int i = findAss();
+		Master pro = assistant[i].putMaster(master);
+		boolean player = assistant[i].player(opt);
+		AssistantCoach obj = new AssistantCoach(name, id, salary,years,player,pro);
 		return obj;
 	}
 

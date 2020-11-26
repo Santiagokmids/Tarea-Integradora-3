@@ -239,7 +239,11 @@ public class Main {
 			System.out.println("\n"name+" fue jugador profesional?\n  [1]Si\n  [2]No\n");
 			int opt = lector.nextInt();
 			if(opt >= 1 && opt <= 2){
-				String message = club.addAss(name,id,salary,years,amount,cham,opt);
+				System.out.println("\nCual la esperticia de"+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
+					"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
+				int pro = lector.nextInt();
+				lector.nextLine();
+				String message = club.addAss(name,id,salary,years,opt,pro);
 				System.out.println(message);
 			}
 		}

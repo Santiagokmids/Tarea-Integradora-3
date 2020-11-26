@@ -6,5 +6,5 @@ package model;
 	*<b> post: </b> The constants was added to the master to the assistant Coach.
    */
 public enum Master{
-	OFFESNIVE, DEFFENSIVE, POSSESSION, LAB_PLAYS, GK_COACH, PHY_COACH;
+	OFFENSIVE, DEFFENSIVE, POSSESSION, LAB_PLAYS, GK_COACH, PHY_COACH;
 }

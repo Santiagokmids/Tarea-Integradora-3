@@ -49,23 +49,41 @@ public class Club{
     }
 
     public String addCoach(String name, String id, int salary,int years,int amountTeams,ArrayList championships[],int opt){
+        String message = "El Entrenador no pudo ser agregado. Ya hay uno en su lugar";
+        if(opt == 1){
+            boolean exit = teamA.verifyCoach();
+            if(exit){
+                employ.add(teamA.addCoach(name,id,salary,years,amountTeams,championships[]));
+                message = "Entrenador contratado correctamente";
+            }
+        }
+        else {
+            boolean stop = teamB.verifyCoach();
+            if(stop){
+                employ.add(teamB.addCoach(name,id,salary,years,amountTeams,championships[]));
+                message = "Entrenador contratado correctamente";
+            }
+        }
+        return message;
+    }
+
+    public String addAss(String name, String id, int salary,int years,int opt,int master){
     	String message = "El Entrenador no pudo ser agregado. Ya hay uno en su lugar";
     	if(opt == 1){
-    		boolean exit = teamA.verifyCoach();
+    		boolean exit = teamA.verifyAss();
     		if(exit){
-    			employ.add(teamA.addCoach(name,id,salary,years,amountTeams,championships[]));
+    			employ.add(teamA.addAss(name,id,salary,years,opt,master));
     			message = "Entrenador contratado correctamente";
     		}
     	}
     	else {
     		boolean stop = teamB.verifyAss();
     		if(stop){
-	    		employ.add(teamB.addCoach(name,id,salary,years,amountTeams,championships[]));
+	    		employ.add(teamB.addAss(name,id,salary,years,opt,master));
 	    		message = "Entrenador contratado correctamente";
 	    	}
     	}
     	return message;
     }
 
-    public String
 }
