@@ -38,11 +38,20 @@ public abstract class Employees{
 		this.id = id;
 	}
 
-	public int getSalry(){
+	public int getSalary(){
 		return salary;
 	}
 
 	public void setSalary(int salary){
 		this.salary = salary;
+	}
+
+	public boolean getState(){
+		return state;
+	}
+
+	public void setState(){
+		state = false;
+		this.state = state;
 	}
 }

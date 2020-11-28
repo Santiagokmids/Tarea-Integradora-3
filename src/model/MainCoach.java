@@ -18,4 +18,16 @@ public class MainCoach extends Coach implements Price{
 		this.amountTeams = amountTeams;
 		this.championships = championships;
 	}//end Constructor
+
+	public int getAmountTeams(){
+		return amountTeams
+	}
+
+	public void setAmountTeams(int amountTeams){
+		this.amountTeams = amountTeams;
+	}
+
+	public ArrayList<String> getCham(){
+		return championships;
+	}
 }

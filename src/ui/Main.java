@@ -83,9 +83,9 @@ public class Main {
 	         System.out.println("");
 	         System.out.println("************************************************************************");
 	         System.out.println(" (1.) Contratar empleados                                               |");
-	         System.out.println(" (2.) Mostrar los usuarios agregados                                    |");
-	         System.out.println(" (3.) Agregar una cancion al pool de canciones                          |");
-	         System.out.println(" (4.) Mostrar canciones que hay en el pool de canciones                 |");
+	         System.out.println(" (2.) Despedir empleados                                                |");
+	         System.out.println(" (3.) Actualizar informacion de un empleado                             |");
+	         System.out.println(" (4.) Asignar jugadores a camerinos                                     |");
 	         System.out.println(" (5.) Crear PlayList                                                    |");
 	         System.out.println(" (6.) Agregar cancion del pool al PlayList                              |");
 	         System.out.println(" (7.) Mostrar PlayList existentes                                       |");
@@ -98,59 +98,20 @@ public class Main {
          
          switch(option){
          	case 1: 
-         	   System.out.println("\n** Agregar empleados **");
+         	   System.out.println("\n** Contratar empleados **");
          	   menuEmploy();
          	   break;
 
          	case 2:
-         		System.out.println("** Mostrar los usuarios agregados **");
-         		System.out.println("");
-         	    String show = musicCS.showUsers();
-         	    System.out.println(show);
+         		System.out.println("\n** Despedir empleados **");
+         		delete();
          	    break;
 
          	case 3:
-         	     System.out.println("** Agregar una cancion al pool de canciones **");
-         	     createSong();
+         		System.out.println("\n** Actualizar informacion de un empleado **");
+         		
          	    break;
-
-         	case 4:
-         	     System.out.println("** Mostrar canciones que hay en el pool de canciones **");
-         	     System.out.println("");
-         	     String show2 = musicCS.showSongs();
-         	     System.out.println(show2);
-         	    break;
-
-         	case 5:
-         	     System.out.println("** Crear PlayList **");
-         	     int opt = menuPlaylist();
-         	     createPlaylist(opt);
-         	    break;
-
-         	case 6:
-         	     System.out.println("** Agregar cancion del pool a la PlayList **");
-         	     System.out.println("");
-         	     addSongPlay();
-         	    break;
-
-			case 7:
-         		 System.out.println("** Mostrar Playlist existentes **");
-         		 System.out.println("");
-         		 String show3 = musicCS.showPlay();
-         	     System.out.println(show3);
-         	    break;
-
-         	case 8:
-         	     System.out.println("** Calificar Playlist **");
-         	     System.out.println("");
-         	     putCalification();
-         	    break;    
-
-         	case 9:
-         		 stop = true;
-         	     System.out.println("\nGRACIAS POR UTILIZAR MCS :D");
-         	    break;
-    
+         
             default: 
                 System.out.println("\nIngreso un numero NO valido");
             }
@@ -161,7 +122,7 @@ public class Main {
 		boolean stop = false;
 		while(!stop){
 			System.out.println("\nQue opcion desea realizar?\n");
-			System.out.println("[1] Agregar entrenador principal\n[2] Agregar entrenador asistente\n[3]Agregar jugador\n[0]Salir al menu principal\n");
+			System.out.println("[1] Contratar entrenador principal\n[2] Contratar entrenador asistente\n[3]Contratar jugador\n[0]Salir al menu principal\n");
 			int option = lector.nextInt();
 			lector.nextLine();
 			switch(option){
@@ -171,11 +132,11 @@ public class Main {
 					break; 
 
 				case 2:
-					addCoach();
+					addAssis();
 					break; 
 
 				case 3:
-					addCoach();
+					addPlayer();
 					break;
 
 				case 0:
@@ -191,21 +152,28 @@ public class Main {
 	public void addCoach(){
 		System.out.println("\nIngrese el nombre del entrenador principal");
 		String name = lector.nextLine();
+
 		System.out.println("\nIngrese la identificacion de "+name);
 		String id = lector.nextLine();
+
 		boolean stop = club.findEmploy(id);
 		if(stop){
 			System.out.println("\nIngrese el salario que gana "+name);
 			int salary = lector.nextInt();
+
 			System.out.println("\nIngrese los anios de experiencia que tiene "+name);
 			int years = lector.nextInt();
+
 			System.out.println("\nIngrese la cantidad de equipos que ha dirigido "+name);
 			int amount = lector.nextInt();
+
 			System.out.println("\nIngrese la cantidad de campeonatos que ha ganado "+name);
 			int champions = lector.nextInt();
 			lector.nextLine();
+
 			ArrayList<String>cham = new ArrayList<String>();
 			System.out.println("\nIngrese el nombre de los campeonatos");
+
 			for (int i = 0;i<cham.lenght;i++) {
 				System.out.println("\nCampeonato "+(i+1));
 				String nameCham = lector.nextLine();
@@ -215,9 +183,15 @@ public class Main {
 			club.showTeams();
 			int opt = lector.nextInt();
 			lector.nextLine();
-			if(opt >= 1 && opt <= 2){
-				String message = club.addCoach(name,id,salary,years,amount,cham,opt);
-				System.out.println(message);
+			boolean exit = true;
+			while(exit){
+				if(opt >= 1 && opt <= 2){
+					String message = club.addCoach(name,id,salary,years,amount,cham,opt);
+					System.out.println(message);
+					exit = false;
+				}
+				else 
+					System.out.println("\nIngreso un numero NO valido");
 			}
 		}
 		else
@@ -225,32 +199,203 @@ public class Main {
 	}
 
 	public void addAssis(){
-		System.out.println("\nIngrese el nombre del entrenador principal");
+		System.out.println("\nIngrese el nombre del entrenador Asistente");
 		String name = lector.nextLine();
+
 		System.out.println("\nIngrese la identificacion de "+name);
 		String id = lector.nextLine();
 		boolean stop = club.findEmploy(id);
+
 		if(stop){
 			System.out.println("\nIngrese el salario que gana "+name);
 			int salary = lector.nextInt();
-			lector.nextLine();
+
 			System.out.println("\nIngrese los anios de experiencia que tiene "+name);
 			int years = lector.nextInt();
+
 			System.out.println("\n"name+" fue jugador profesional?\n  [1]Si\n  [2]No\n");
 			int opt = lector.nextInt();
-			if(opt >= 1 && opt <= 2){
-				System.out.println("\nCual la esperticia de"+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
-					"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
-				int pro = lector.nextInt();
-				lector.nextLine();
-				String message = club.addAss(name,id,salary,years,opt,pro);
-				System.out.println(message);
+
+			boolean exit = true;
+			while(exit){
+				if(opt == 1 || opt == 2){
+					System.out.println("Cuantas esperticias tiene "+name);
+					int amount = lector.nextInt();
+					if(amount <= 6){
+						int[] masters = new int[amount];
+	
+						for(int i = 0;masters.lenght;i++){
+							System.out.println("\nCual la esperticia #"+(i+1)" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
+							"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
+							int pro = lector.nextInt();
+							masters[i] = pro;
+						}
+						if(pro >= 1 && pro <= 6){
+							System.out.println("\nDe que equipo va a ser Asistente?");
+							club.showTeams();
+							int team = lector.nextInt();
+							lector.nextLine();
+
+							if(team == 1 || team == 2){
+								String message = club.addAss(name,id,salary,years,opt,masters[],team);
+								System.out.println(message);
+								exit = false;
+							}
+							else 
+								System.out.println("\nIngreso un numero NO valido");
+						}
+						else 
+							System.out.println("\nIngreso un numero NO valido");
+					}
+					else 
+						System.out.println("\nIngreso un numero NO valido");
+				}
+				else 
+					System.out.println("\nIngreso un numero NO valido");
 			}
 		}
 		else
 			System.out.println("\nEl entrenador ya esta en el club, no se pudo agregar");
 	}
 
+	public void addPlayer(){
+		System.out.println("\nIngrese el nombre del jugador");
+		String name = lector.nextLine();
 
+		System.out.println("\nIngrese la identificacion de "+name);
+		String id = lector.nextLine();
+		boolean stop = club.findEmploy(id);
+
+		if(stop){
+			System.out.println("\nIngrese el salario que gana "+name);
+			int salary = lector.nextInt();
+
+			System.out.println("\nDe que equipo va a ser jugador?");
+			club.showTeams();
+			int team = lector.nextInt();
+
+			boolean exit = true;
+			while(exit){
+				if(team >= 1 && team <=2){
+					System.out.println("\nIngrese el numero de la camiseta de "+name);
+					int number = lector.nextInt();
+					boolean shirt = club.shirtNum(number,team);
+
+					if(shirt){
+						System.out.println("\nIngrese la posicion de juego de "+name"\n[1] Portero\n[2] Defensa\n[3] Volante\n[4] Delantero\n");
+						int pos = lector.nextInt();
+						if(pos >= 1 && pos<= 4){
+							String message = club.addPlayer(name,id,salary,number,pos,team);
+							System.out.println(message);
+							exit = false;
+						}
+						else 
+							System.out.println("\nIngreso un numero NO valido");
+					}
+					else
+						System.out.println("\nEl numero ya lo usa otro jugador. Seleccione otro");
+				}
+				else 
+					System.out.println("\nIngreso un numero NO valido");
+			}
+		}
+		else
+			System.out.println("\nEl jugador ya esta en el club, no se pudo agregar");
+	}
+
+	public void delete(){
+		System.out.println("\nIngrese el ID del empleado que va a Despedir");
+		String id = lector.nextLine();
+		String message = deleteEmploy(id);
+		System.out.println(message);
+	}
+
+	public void menuAct(){
+		boolean exit = true;
+		while(exit){
+			System.out.println("Actualizar informacion de:\n[1] Entrenador principal\n[2] Entrenador asistente\n"+
+				"[3] Jugador\n[0] Volver al menu principal");
+			int option = lector.nextInt();
+			lector.nextLine();
+			switch(option){
+
+				case 1:
+					addCoach();
+					break;
+				case 2:
+					break;
+			}
+		}
+	}
+
+	public void actCoach(){
+		boolean exit = true;
+		while(exit){
+			System.out.println("[1] Actualizar salario\n[2] Actualizar numero de equipos que ha manejado\n[3] Actualizar numero de campeonatos ganados");
+			int option = lector.nextInt();
+			lector.nextLine();
+
+			System.out.println("Ingrese el ID del entrenador");
+			String id = lector.nextLine();
+			boolean exit = club.findEmploy(id);
+			if(!exit){
+
+				if(option == 1){
+					System.out.println("Ingrese el nuevo salario para el entrenador");
+					String salary = lector.nextInt();
+					lector.nextLine();
+					changeSalary(id,salary);
+					System.out.println("El salario ha sido actualizado");
+					exit = false;
+				} 
+				else if(option == 2){
+					System.out.println("Ingrese el numero de equipos que ha manejado el entrenador");
+					String teams = lector.nextInt();
+					lector.nextLine();
+					String message = club.actAmount(id,teams)
+					System.out.println(message);
+					exit = false;
+				}
+				else if(option == 3){
+					System.out.println("Ingrese el nuevo campeonato ganado por el entrenador");
+					String champ = lector.nextLine();
+					String sign = club.addChamp(id,champ)
+					System.out.println(sing);
+					exit = false;
+				}
+				else 
+					System.out.println("Ingreso un numero invalido");
+			}
+			else 
+				System.out.println("El entrenador no existe");
+		}
+	}
+
+	public void actAssis(){
+		boolean exit = true;
+		while(exit){
+			System.out.println("[1] Actualizar salario\n[2] Actualizar esperticias");
+			int option = lector.nextInt();
+			lector.nextLine();
+
+			System.out.println("Ingrese el ID del entrenador");
+			String id = lector.nextLine();
+			boolean exit = club.findEmploy(id);
+			if(!exit){
+
+				if(option == 1){
+					System.out.println("Ingrese el nuevo salario para el entrenador");
+					String salary = lector.nextInt();
+					lector.nextLine();
+					changeSalary(id,salary);
+					System.out,println("El salario ha sido actualizado");
+				} 
+			}
+		}
+	}
+
+	public void addToDress(){
+
+	}
 
 }

@@ -5,7 +5,7 @@ public class AssistantCoach extends Coach {
 
 	//Atributes
 	private boolean playerOrNot;
-	private Master master;
+	private Master[] master;
 
 	//Methods
 	/** 
@@ -13,7 +13,7 @@ public class AssistantCoach extends Coach {
 	*Constructor of AssistantCoach <br> 
 	*<b> post: </b> Start the class AssistantCoach.
    */
-	public AssistantCoach(int yearsOfExp,boolean playerOrNot,Master master){
+	public AssistantCoach(int yearsOfExp,boolean playerOrNot,Master master[]){
 		super(yearsOfExp);
 		this.playerOrNot = playerOrNot;
 		this.master = master;
@@ -27,7 +27,7 @@ public class AssistantCoach extends Coach {
 		return master;
 	}
 
-	public void setMaster(Master master){
+	public void setMaster(Master master[]){
 		this.master = master
 	}
 
