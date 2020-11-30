@@ -76,6 +76,19 @@ public class Team{
 		return position;
 	}
 
+	public int foundAss(String id){
+		boolean exit = true;
+		int i = 0, position = -1;
+		while(exit && i<assistant.length){
+			if(assistant[i] =! null && assistant[i].getName().equalsIgnoreCase(id)){
+				position = i;
+				exit = false;
+			}
+			i++;
+		}
+		return position;
+	}
+
 	public int findPlayer(){
 		boolean exit = true;
 		int i = 0, position = 0;
@@ -180,12 +193,44 @@ public class Team{
 		main.getCham().add(name);
 	}
 
+	public void addMaster(String id,int master){
+		int i = foundAss(id);
+		Master[] newMaster;
+		newMaster = new Master [assistant[i].getMaster().length + 1];
+		newMaster = assistant[i].getMaster();
+		if(newMaster.length < 6){
+			int m = findPos(newMaster);
+			Master newPro = assistant[i].putMaster(master);	
+			newMaster[m] = newPro;
+			assistant[i].setMaster(newMaster);
+		}
+		
+	}
+
+	public int findPos(Master master){
+		boolean exit = true;
+		int position = 0;
+		for(int i = 0;i<master.length && exit;i++){
+			if(master[i] == null){
+				exit = false;
+				position = i;
+			}
+		}
+		return position;
+	}
+
 	public String getName(){
 		return name;
 	}
 
 	public String getIdCoach(){
 		String id = main.getId();
+		return id;
+	}
+
+	public String getIdAs(String id){
+		int i = foundAss(id);
+		String id = assistant[i].getId();
 		return id;
 	}
 

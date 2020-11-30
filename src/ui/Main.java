@@ -43,22 +43,28 @@ public class Main {
 		boolean exit = true;
 		System.out.println("Introduzca el nombre del Club");
 		String name = lector.nextLine();
+		
 		System.out.println("Introduzca el numero de identificacion de "+name);
 		String nit = lector.nextLine();
+
 		for(int i=0;exit;i++){
 			System.out.println("Introduzca solo el dia de fundacion de "+name);
 			fundation[0] = lector.nextInt();
+
 			if(fundation[0]<31){
 				System.out.println("Introduzca solo el mes de fundacion de "+name);
 				fundation[1] = lector.nextInt();
+
 				if(fundation[1]<12){
 					System.out.println("Introduzca solo el anio de fundacion de "+name);
 					fundation[2] = lector.nextInt();
 					lector.nextLine();
+
 					System.out.println("Introduzca el nombre del equipo A");
 					String a = lector.nextLine();
 					System.out.println("Introduzca el nombre del equipo B");
 					String b = lector.nextLine();
+
 					club = new Club(name,nit,fundation,a,b);
 					exit = false;
 				} else
@@ -219,30 +225,30 @@ public class Main {
 			boolean exit = true;
 			while(exit){
 				if(opt == 1 || opt == 2){
-					System.out.println("Cuantas esperticias tiene "+name);
+					System.out.println("Cuantas experticias tiene "+name);
 					int amount = lector.nextInt();
 					if(amount <= 6){
 						int[] masters = new int[amount];
-	
+				
 						for(int i = 0;masters.lenght;i++){
-							System.out.println("\nCual la esperticia #"+(i+1)" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
+							System.out.println("\nCual es la experticia #"+(i+1)" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
 							"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
 							int pro = lector.nextInt();
-							masters[i] = pro;
-						}
-						if(pro >= 1 && pro <= 6){
-							System.out.println("\nDe que equipo va a ser Asistente?");
-							club.showTeams();
-							int team = lector.nextInt();
-							lector.nextLine();
-
-							if(team == 1 || team == 2){
-								String message = club.addAss(name,id,salary,years,opt,masters[],team);
-								System.out.println(message);
-								exit = false;
+							if(pro >= 1 && pro <= 6){
+								masters[i] = pro;
 							}
 							else 
-								System.out.println("\nIngreso un numero NO valido");
+							System.out.println("\nIngreso un numero NO valido");
+						}
+						System.out.println("\nDe que equipo va a ser Asistente?");
+						club.showTeams();
+						int team = lector.nextInt();
+						lector.nextLine();
+
+						if(team == 1 || team == 2){
+							String message = club.addAss(name,id,salary,years,opt,masters[],team);
+							System.out.println(message);
+							exit = false;
 						}
 						else 
 							System.out.println("\nIngreso un numero NO valido");
@@ -374,7 +380,7 @@ public class Main {
 	public void actAssis(){
 		boolean exit = true;
 		while(exit){
-			System.out.println("[1] Actualizar salario\n[2] Actualizar esperticias");
+			System.out.println("[1] Actualizar salario\n[2] Agregar experticias");
 			int option = lector.nextInt();
 			lector.nextLine();
 
@@ -388,7 +394,15 @@ public class Main {
 					String salary = lector.nextInt();
 					lector.nextLine();
 					changeSalary(id,salary);
-					System.out,println("El salario ha sido actualizado");
+					System.out.println("El salario ha sido actualizado");
+				}
+				else if(option == 2){
+					System.out.println("Ingrese la nueva experticia que va a agregar?");
+					System.out.println("\nCual es la experticia #"+(i+1)" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
+						"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
+					int masters = lector.nextInt()
+					lector.nextLine();
+
 				} 
 			}
 		}

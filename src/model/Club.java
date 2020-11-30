@@ -160,10 +160,21 @@ public class Club{
 
     public int findTeam(String id){
         int stop = 0;       
-        if(team.getIdCoach().equalsIgnoreCase(id)){
+        if(teamA.getIdCoach().equalsIgnoreCase(id)){
             stop = 1;
         }
         else if(teamB.getIdCoach().equalsIgnoreCase(id)){
+            stop = 2;
+        }
+        return stop;
+    }
+
+    public int findTeamAss(String id){
+        int stop = 0;       
+        if(teamA.getIdAs().equalsIgnoreCase(id)){
+            stop = 1;
+        }
+        else if(teamB.getIdAs().equalsIgnoreCase(id)){
             stop = 2;
         }
         return stop;
@@ -197,6 +208,19 @@ public class Club{
         return message;  
     }
 
+    public String addMaster(String id, int master){
+        String message = "No se actualizo. No hay entrenadores con ese ID ";
+        int verify = findTeamAss(id); 
+        if(verify == 1){
+            teamA.addMaster(master);
+            message = "Actualizado!";
+        }
+        else if(verify == 2){
+            teamB.addMaster(master);
+            message = "Actualizado!";
+        }            
+        return message;  
+    }
 
 
 }
