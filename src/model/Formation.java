@@ -23,4 +23,13 @@ public class Formation{
 		this.date = date;
 	 	Formation[][] formation = new Formation[LONG][WIDTH];
 	}//end Constructor
+
+	public Formation addLines(int def){
+		for(int i=0;i<LONG;i++){	
+			for(int j=0;j<WIDTH;j++){
+				formation[i][j] = ;
+				p++;
+			}			
+		}
+	}
 }

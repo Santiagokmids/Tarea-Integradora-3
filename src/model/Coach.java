@@ -17,4 +17,12 @@ public class Coach extends Employees{
 		this.yearsOfExp = yearsOfExp;
 	}//end Constructor
 
+	public int getYears(){
+		return yearsOfExp;
+	}
+
+	public void setYears(int yearsOfExp){
+		this.yearsOfExp = yearsOfExp;
+	}
+
 }

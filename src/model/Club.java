@@ -31,7 +31,7 @@ public class Club{
     public String showTeams(){
     	String message = "El club no tiene 2 equipos";
     	if(teamA != null && teamB != null){
-    		message = "\n[1]"teamA.getName()"\n[2]"teamB.getName()"\n";
+    		message = "\n[1]"+teamA.getName()+"\n[2]"+teamB.getName()+"\n";
     	}
     	return message;
     }
@@ -51,8 +51,9 @@ public class Club{
     public int positionEmploy(String id){
         boolean exit = true;
         int i = 0;
-        for(i;exit;i++){
-            if(id.equalsIgnoreCase(employ.getId(i))){
+        for(int p = 0;exit;p++){
+            if(id.equalsIgnoreCase(employ.get(p).getId())){
+                i = p;
                 exit = false;
             }
         }
@@ -62,13 +63,13 @@ public class Club{
     public boolean shirtNum(int number, int opt){
         boolean exit = true, stop = true;
         if(opt == 1){
-            exit = teamA.findShirt();
+            exit = teamA.findShirt(number);
             if(exit){
                 stop = false;
             }
         }
         else{
-            exit = teamB.findShirt();
+            exit = teamB.findShirt(number);
             if(exit){
                 stop = false;
             }
@@ -76,45 +77,45 @@ public class Club{
         return stop;
     }
 
-    public String addCoach(String name, String id, int salary,int years,int amountTeams,ArrayList championships[],int opt){
+    public String addEmploy(String name, String id, int salary,int years,int amountTeams,ArrayList<String> championships,int opt){
         String message = "El Entrenador no pudo ser agregado. Ya hay uno en su lugar";
         if(opt == 1){
             boolean exit = teamA.verifyCoach();
             if(exit){
-                employ.add(teamA.addCoach(name,id,salary,years,amountTeams,championships[]));
+                employ.add(teamA.addCoach(name,id,salary,years,amountTeams,championships));
                 message = "Entrenador contratado correctamente";
             }
         }
         else {
             boolean stop = teamB.verifyCoach();
             if(stop){
-                employ.add(teamB.addCoach(name,id,salary,years,amountTeams,championships[]));
+                employ.add(teamB.addCoach(name,id,salary,years,amountTeams,championships));
                 message = "Entrenador contratado correctamente";
             }
         }
         return message;
     }
 
-    public String addAss(String name, String id, int salary,int years,int opt,int master[],int team){
+    public String addEmploy(String name, String id, int salary,int years,int opt,int master[],int team){
     	String message = "El Entrenador no pudo ser agregado. Ya hay uno en su lugar";
     	if(team == 1){
     		boolean exit = teamA.verifyAss();
     		if(exit){
-    			employ.add(teamA.addAss(name,id,salary,years,opt,master[]));
+    			employ.add(teamA.addAss(name,id,salary,years,opt,master));
     			message = "Entrenador contratado correctamente";
     		}
     	}
     	else {
     		boolean stop = teamB.verifyAss();
     		if(stop){
-	    		employ.add(teamB.addAss(name,id,salary,years,opt,master[]));
+	    		employ.add(teamB.addAss(name,id,salary,years,opt,master));
 	    		message = "Entrenador contratado correctamente";
 	    	}
     	}
     	return message;
     }
 
-    public String addPlayer(String name, String id, int salary,int number, int position, int team){
+    public String addEmploy(String name, String id, int salary,int number, int position, int team){
         String message = "El jugador no pudo ser agregado. Ya hay el limite maximo en la plantilla";
         if(team == 1){
             boolean exit = teamA.verifyPlayer();
@@ -126,7 +127,7 @@ public class Club{
         else {
             boolean stop = teamB.verifyPlayer();
             if(stop){
-                employ.add(teamB.addPlayer(name,id,salary,years,number));
+                employ.add(teamB.addPlayer(name,id,salary,number,position));
                 message = "Jugador contratado correctamente";
             }
         }
@@ -138,7 +139,7 @@ public class Club{
         boolean stop = findEmploy(id);
         if(!stop){
              int position = positionEmploy(id);
-             String nit = employ(position).getId();
+             String nit = employ.get(position).getId();
              message = teamA.deleteEmploy(nit);
              if(message.equalsIgnoreCase("")){
                 message = teamB.deleteEmploy(nit);
@@ -171,10 +172,21 @@ public class Club{
 
     public int findTeamAss(String id){
         int stop = 0;       
-        if(teamA.getIdAs().equalsIgnoreCase(id)){
+        if(teamA.getIdAs(id).equalsIgnoreCase(id)){
             stop = 1;
         }
-        else if(teamB.getIdAs().equalsIgnoreCase(id)){
+        else if(teamB.getIdAs(id).equalsIgnoreCase(id)){
+            stop = 2;
+        }
+        return stop;
+    }
+
+     public int findTeamPly(String id){
+        int stop = 0;       
+        if(teamA.getIdPly(id).equalsIgnoreCase(id)){
+            stop = 1;
+        }
+        else if(teamB.getIdPly(id).equalsIgnoreCase(id)){
             stop = 2;
         }
         return stop;
@@ -208,19 +220,109 @@ public class Club{
         return message;  
     }
 
-    public String addMaster(String id, int master){
+
+    public String addYearsCoach(String id, int years){
         String message = "No se actualizo. No hay entrenadores con ese ID ";
-        int verify = findTeamAss(id); 
+        int verify = findTeam(id); 
         if(verify == 1){
-            teamA.addMaster(master);
+            teamA.setExpCoach(years);
             message = "Actualizado!";
         }
         else if(verify == 2){
-            teamB.addMaster(master);
+            teamB.setExpCoach(years);
             message = "Actualizado!";
         }            
         return message;  
     }
 
+    public String addMaster(String id, int master){
+        String message = "No se actualizo. No hay Asistentes con ese ID ";
+        int verify = findTeamAss(id); 
+        if(verify == 1){
+            teamA.addMaster(id,master);
+            message = "Actualizado!";
+        }
+        else if(verify == 2){
+            teamB.addMaster(id, master);
+            message = "Actualizado!";
+        }            
+        return message;  
+    }
+
+    public String changeExp(String id,int exp){
+        String message = "No se actualizo. No hay Asistentes con ese ID ";
+        int verify = findTeamAss(id); 
+        if(verify == 1){
+            teamA.setExpAss(id,exp);
+            message = "Actualizado!";
+        }
+        else if(verify == 2){
+            teamB.setExpAss(id,exp);
+            message = "Actualizado!";
+        }            
+        return message;  
+    }
+
+    public String changeNumber(String id,int number){
+        String message = "No se actualizo. No hay jugadores con ese ID ";
+        int verify = findTeamPly(id); 
+        if(verify == 1){
+            boolean exit = teamA.findShirt(number);
+            if(!exit){
+                teamA.setNumber(id,number);
+                message = "Actualizado!";
+            }else
+                message = "Ya hay jugadores con ese numero";
+        }
+        else if(verify == 2){
+            boolean stop = teamA.findShirt(number);
+            if(!stop){
+                teamB.setNumber(id,number);
+                message = "Actualizado!";
+            }else
+                message = "Ya hay jugadores con ese numero";
+        }            
+        return message;  
+    }
+
+    public String putGoals(String id,int goals){
+        String message = "No se actualizo. No hay jugadores con ese ID ";
+        int verify = findTeamPly(id); 
+        if(verify == 1){
+            teamA.setGoals(id,goals);
+            message = "Actualizado!";
+        }
+        else if(verify == 2){
+            teamB.setExpAss(id,goals);
+            message = "Actualizado!";
+        }            
+        return message;  
+    }
+
+    public String putAverage(String id, double average){
+        String message = "No se actualizo. No hay jugadores con ese ID ";
+        int verify = findTeamPly(id); 
+        if(verify == 1){
+            teamA.setAverage(id,average);
+            message = "Actualizado!";
+        }
+        else if(verify == 2){
+            teamB.setAverage(id,average);
+            message = "Actualizado!";
+        }            
+        return message;  
+    }
+
+    public String addLineUp(int team,int def, int mc, int cd){
+        String message = "No se puede crear la formacion. Hay mas de 11 jugadores";
+        if(team == 1){
+            int amount = def + mc + cd;
+            if(amount < 11){
+                teamA.lineUp(def, mc, cd);
+            }
+        }else{
+
+        }
+    }
 
 }

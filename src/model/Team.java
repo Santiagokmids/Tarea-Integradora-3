@@ -5,10 +5,10 @@ public class Team{
 
 	//Constants
 	public final static int MAX_OFFICE = 6;
+	public final static int PLAY = 25;
 
 	//Relationships
-	private ArrayList<Formation> formationA;
-	private ArrayList<Formation> formationB;
+	private ArrayList<Formation> formation;
 	private Players[][] intallationsA;
 	private Players[][] intallationsB;
 	private Coach[][] offices;
@@ -30,10 +30,9 @@ public class Team{
 		this.name = name;
 		countMain = 0;
 		main = null;
-		player = new Players[25];
+		player = new Players[PLAY];
 		assistant = new AssistantCoach[3];
-		formationA = new ArrayList<Formation>();
-		formationB = new ArrayList<Formation>();
+		formation = new ArrayList<Formation>();
 	 	Coach[][] offices = new Coach[MAX_OFFICE][MAX_OFFICE];
 	 	Players[][] intallationsA = new Players[7][7];
 	 	Players[][] intallationsB = new Players[7][MAX_OFFICE];
@@ -80,7 +79,20 @@ public class Team{
 		boolean exit = true;
 		int i = 0, position = -1;
 		while(exit && i<assistant.length){
-			if(assistant[i] =! null && assistant[i].getName().equalsIgnoreCase(id)){
+			if(assistant[i] != null && assistant[i].getName().equalsIgnoreCase(id)){
+				position = i;
+				exit = false;
+			}
+			i++;
+		}
+		return position;
+	}
+
+	public int foundPly(String id){
+		boolean exit = true;
+		int i = 0, position = -1;
+		while(exit && i<player.length){
+			if(player[i] != null && player[i].getName().equalsIgnoreCase(id)){
 				position = i;
 				exit = false;
 			}
@@ -107,15 +119,16 @@ public class Team{
 		boolean stop = false; 
 		while(i<player.length){
 			if(player[i].verifyShirt(number)){
-				player[i].getShirtNum() == number;
-				stop = true;
+				if(player[i].getShirtNum() == number){
+					stop = true;
+				}
 			}
 		}
 		return stop;
 	}
 
-	public MainCoach addCoach(String name, String id, int salary,int years,int amountTeams,String championships[]){ 
-		MainCoach main = new MainCoach(name, id, salary,years,amountTeams,championships[]);
+	public MainCoach addCoach(String name, String id, int salary,int years,int amountTeams,ArrayList<String> championships){ 
+		MainCoach main = new MainCoach(name, id, salary,years,amountTeams,championships);
 		countMain += 1;
 		return main;
 	}
@@ -131,7 +144,7 @@ public class Team{
 		return obj;
 	}
 
-	public MainCoach addPlayer(String name, String id, int salary,int number,int position){ 
+	public Players addPlayer(String name, String id, int salary,int number,int position){ 
 		int play = findPlayer();
 		Position pos = player[play].putPosition(position);
 		Players obj = new Players(name, id, salary,number,pos);
@@ -164,7 +177,7 @@ public class Team{
 		return message;
 	}
 
-	public String dressingRooms(Players player[],int team){
+	/*public String dressingRooms(Players player[],int team){
 		if(team == 1){
 			for(int i=0;i<7;i++){
 				int p = 0;	
@@ -183,7 +196,7 @@ public class Team{
 				}			
 			}
 		}
-	}
+	}*/
 
 	public void changeAmountTeams(int teams){
 		main.setAmountTeams(teams);
@@ -195,8 +208,7 @@ public class Team{
 
 	public void addMaster(String id,int master){
 		int i = foundAss(id);
-		Master[] newMaster;
-		newMaster = new Master [assistant[i].getMaster().length + 1];
+		Master[] newMaster = new Master[assistant[i].getMaster().length + 1];
 		newMaster = assistant[i].getMaster();
 		if(newMaster.length < 6){
 			int m = findPos(newMaster);
@@ -207,7 +219,7 @@ public class Team{
 		
 	}
 
-	public int findPos(Master master){
+	public int findPos(Master master[]){
 		boolean exit = true;
 		int position = 0;
 		for(int i = 0;i<master.length && exit;i++){
@@ -230,8 +242,42 @@ public class Team{
 
 	public String getIdAs(String id){
 		int i = foundAss(id);
-		String id = assistant[i].getId();
-		return id;
+		String nit = assistant[i].getId();
+		return nit;
 	}
 
+	public String getIdPly(String id){
+		int i = foundPly(id);
+		String nit = player[i].getId();
+		return nit;
+	}
+
+	public void setExpCoach(int years){
+		main.setYears(years);
+	}
+
+	public void setExpAss(String id, int years){
+		int i = foundAss(id);
+		assistant[i].setYears(years);
+	}
+
+	public void setNumber(String id,int number){
+		int i = foundPly(id);
+		player[i].setShirtNum(number);
+	}
+
+	public void setGoals(String id,int goals){
+		int i = foundPly(id);
+		player[i].setGoals(goals);
+	}
+
+	public void setAverage(String id, double average){
+		int i = foundPly(id);
+		player[i].setAverage(average);
+	}
+
+	public void lineUp(int def, int mc, int cd){
+		
+	}
 }
+

@@ -33,7 +33,7 @@ public class Players extends Employees implements Price {
 		return shirtNum;
 	}
 
-	public void setShirtNum(){
+	public void setShirtNum(int shirtNum){
 		this.shirtNum = shirtNum;
 	}
 
@@ -41,7 +41,7 @@ public class Players extends Employees implements Price {
 		return goalsAmount;
 	}
 
-	public void setGoals(){
+	public void setGoals(int goalsAmount){
 		this.goalsAmount = goalsAmount;
 	}
 
@@ -49,12 +49,12 @@ public class Players extends Employees implements Price {
 		return averageCal;
 	}
 
-	public void setAverage(){
+	public void setAverage(double averageCal){
 		this.averageCal = averageCal;
 	}
 
 	public Position putPosition(int opt){
-		Position position;
+		Position position = null;
 		if(opt == 1){
 			position = Position.GK;
 		}
@@ -62,12 +62,17 @@ public class Players extends Employees implements Price {
 			position = Position.DEF;
 		}
 		else if(opt == 3){
-			position = Position.MC;
+			position = Position.CM;
 		}
 		else if(opt == 4){
 			position = Position.CF;
 		}
-		return master;
+		return position;
+	}
+
+	public double marketPrice(){
+		double x = 0;
+		return x;
 	}
 
 

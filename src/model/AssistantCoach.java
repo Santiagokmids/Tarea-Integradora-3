@@ -13,26 +13,26 @@ public class AssistantCoach extends Coach {
 	*Constructor of AssistantCoach <br> 
 	*<b> post: </b> Start the class AssistantCoach.
    */
-	public AssistantCoach(int yearsOfExp,boolean playerOrNot,Master master[]){
-		super(yearsOfExp);
+	public AssistantCoach(String name, String id, int salary,int yearsOfExp,boolean playerOrNot,Master master[]){
+		super(name,id,salary,yearsOfExp);
 		this.playerOrNot = playerOrNot;
 		this.master = master;
 	}//end Constructor
 
 	public boolean getPlayer(){
-		return boolean;
+		return playerOrNot;
 	}
 
-	public Master getMaster(){
+	public Master[] getMaster(){
 		return master;
 	}
 
 	public void setMaster(Master master[]){
-		this.master = master
+		this.master = master;
 	}
 
 	public Master putMaster(int opt){
-		Master master;
+		Master master = null;
 		if(opt == 1){
 			master = Master.OFFENSIVE;
 		}

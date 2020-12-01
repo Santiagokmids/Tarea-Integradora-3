@@ -91,7 +91,7 @@ public class Main {
 	         System.out.println(" (1.) Contratar empleados                                               |");
 	         System.out.println(" (2.) Despedir empleados                                                |");
 	         System.out.println(" (3.) Actualizar informacion de un empleado                             |");
-	         System.out.println(" (4.) Asignar jugadores a camerinos                                     |");
+	         System.out.println(" (4.) Agregar alineacion a un equipo                                   |");
 	         System.out.println(" (5.) Crear PlayList                                                    |");
 	         System.out.println(" (6.) Agregar cancion del pool al PlayList                              |");
 	         System.out.println(" (7.) Mostrar PlayList existentes                                       |");
@@ -115,6 +115,10 @@ public class Main {
 
          	case 3:
          		System.out.println("\n** Actualizar informacion de un empleado **");
+         		menuAct();
+         	    break;
+         	case 4:
+         		System.out.println("\n** Agregar alineacion a un equipo **");
          		
          	    break;
          
@@ -180,7 +184,7 @@ public class Main {
 			ArrayList<String>cham = new ArrayList<String>();
 			System.out.println("\nIngrese el nombre de los campeonatos");
 
-			for (int i = 0;i<cham.lenght;i++) {
+			for (int i = 0;i<cham.size();i++) {
 				System.out.println("\nCampeonato "+(i+1));
 				String nameCham = lector.nextLine();
 				cham.add(nameCham);
@@ -192,7 +196,7 @@ public class Main {
 			boolean exit = true;
 			while(exit){
 				if(opt >= 1 && opt <= 2){
-					String message = club.addCoach(name,id,salary,years,amount,cham,opt);
+					String message = club.addEmploy(name,id,salary,years,amount,cham,opt);
 					System.out.println(message);
 					exit = false;
 				}
@@ -219,7 +223,7 @@ public class Main {
 			System.out.println("\nIngrese los anios de experiencia que tiene "+name);
 			int years = lector.nextInt();
 
-			System.out.println("\n"name+" fue jugador profesional?\n  [1]Si\n  [2]No\n");
+			System.out.println("\n"+name+" fue jugador profesional?\n  [1]Si\n  [2]No\n");
 			int opt = lector.nextInt();
 
 			boolean exit = true;
@@ -230,8 +234,8 @@ public class Main {
 					if(amount <= 6){
 						int[] masters = new int[amount];
 				
-						for(int i = 0;masters.lenght;i++){
-							System.out.println("\nCual es la experticia #"+(i+1)" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
+						for(int i = 0;i<masters.length;i++){
+							System.out.println("\nCual es la experticia #"+(i+1)+" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"+
 							"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
 							int pro = lector.nextInt();
 							if(pro >= 1 && pro <= 6){
@@ -246,7 +250,7 @@ public class Main {
 						lector.nextLine();
 
 						if(team == 1 || team == 2){
-							String message = club.addAss(name,id,salary,years,opt,masters[],team);
+							String message = club.addEmploy(name,id,salary,years,opt,masters,team);
 							System.out.println(message);
 							exit = false;
 						}
@@ -288,10 +292,10 @@ public class Main {
 					boolean shirt = club.shirtNum(number,team);
 
 					if(shirt){
-						System.out.println("\nIngrese la posicion de juego de "+name"\n[1] Portero\n[2] Defensa\n[3] Volante\n[4] Delantero\n");
+						System.out.println("\nIngrese la posicion de juego de "+name+"\n[1] Portero\n[2] Defensa\n[3] Volante\n[4] Delantero\n");
 						int pos = lector.nextInt();
 						if(pos >= 1 && pos<= 4){
-							String message = club.addPlayer(name,id,salary,number,pos,team);
+							String message = club.addEmploy(name,id,salary,number,pos,team);
 							System.out.println(message);
 							exit = false;
 						}
@@ -312,7 +316,7 @@ public class Main {
 	public void delete(){
 		System.out.println("\nIngrese el ID del empleado que va a Despedir");
 		String id = lector.nextLine();
-		String message = deleteEmploy(id);
+		String message = club.deleteEmploy(id);
 		System.out.println(message);
 	}
 
@@ -326,10 +330,20 @@ public class Main {
 			switch(option){
 
 				case 1:
-					addCoach();
+					actCoach();
 					break;
 				case 2:
+					actAssis();
 					break;
+				case 3:
+					actPlayer();
+					break;
+				case 0:
+					exit = false;
+					break;
+
+				default:
+					System.out.println("Numero invalido");
 			}
 		}
 	}
@@ -337,36 +351,44 @@ public class Main {
 	public void actCoach(){
 		boolean exit = true;
 		while(exit){
-			System.out.println("[1] Actualizar salario\n[2] Actualizar numero de equipos que ha manejado\n[3] Actualizar numero de campeonatos ganados");
+			System.out.println("[1] Actualizar salario\n[2] Actualizar numero de equipos que ha manejado\n[3] Actualizar numero de campeonatos ganados\n[4] Actualizar anios de experiencia");
 			int option = lector.nextInt();
 			lector.nextLine();
 
 			System.out.println("Ingrese el ID del entrenador");
 			String id = lector.nextLine();
-			boolean exit = club.findEmploy(id);
-			if(!exit){
+			boolean stop = club.findEmploy(id);
+			if(!stop){
 
 				if(option == 1){
 					System.out.println("Ingrese el nuevo salario para el entrenador");
-					String salary = lector.nextInt();
+					int salary = lector.nextInt();
 					lector.nextLine();
-					changeSalary(id,salary);
+					club.changeSalary(id,salary);
 					System.out.println("El salario ha sido actualizado");
 					exit = false;
 				} 
 				else if(option == 2){
 					System.out.println("Ingrese el numero de equipos que ha manejado el entrenador");
-					String teams = lector.nextInt();
+					int teams = lector.nextInt();
 					lector.nextLine();
-					String message = club.actAmount(id,teams)
+					String message = club.actAmount(id,teams);
 					System.out.println(message);
 					exit = false;
 				}
 				else if(option == 3){
 					System.out.println("Ingrese el nuevo campeonato ganado por el entrenador");
 					String champ = lector.nextLine();
-					String sign = club.addChamp(id,champ)
-					System.out.println(sing);
+					String sign = club.addChamp(id,champ);
+					System.out.println(sign);
+					exit = false;
+				}
+				else if(option == 4){
+					System.out.println("Ingrese el numero de anios de experiencia del Entrenador");
+					int exp = lector.nextInt();
+					lector.nextLine();
+					String text = club.addYearsCoach(id, exp);
+					System.out.println(text);
 					exit = false;
 				}
 				else 
@@ -380,36 +402,148 @@ public class Main {
 	public void actAssis(){
 		boolean exit = true;
 		while(exit){
-			System.out.println("[1] Actualizar salario\n[2] Agregar experticias");
+			System.out.println("[1] Actualizar salario\n[2] Agregar experticias\n[3] Actualizar anios de experiencia");
 			int option = lector.nextInt();
 			lector.nextLine();
 
-			System.out.println("Ingrese el ID del entrenador");
+			System.out.println("Ingrese el ID del Asistente");
 			String id = lector.nextLine();
-			boolean exit = club.findEmploy(id);
-			if(!exit){
+			boolean stop = club.findEmploy(id);
+			if(!stop){
 
 				if(option == 1){
-					System.out.println("Ingrese el nuevo salario para el entrenador");
-					String salary = lector.nextInt();
+					System.out.println("Ingrese el nuevo salario para el Asistente");
+					int salary = lector.nextInt();
 					lector.nextLine();
-					changeSalary(id,salary);
+					club.changeSalary(id,salary);
 					System.out.println("El salario ha sido actualizado");
+					exit = false;
 				}
 				else if(option == 2){
 					System.out.println("Ingrese la nueva experticia que va a agregar?");
-					System.out.println("\nCual es la experticia #"+(i+1)" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"
+					System.out.println("\nCual es la experticia?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"+
 						"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
-					int masters = lector.nextInt()
+					int masters = lector.nextInt();
+					lector.nextLine();
+					String message = club.addMaster(id,masters);
+					System.out.println(message);
+					exit = false;
+				}
+				else if(option == 3){
+					System.out.println("Ingrese el numero de anios de experiencia del Asistente");
+					int exp = lector.nextInt();
 					lector.nextLine();
 
-				} 
+					String text = club.changeExp(id, exp);
+					System.out.println(text);
+					exit = false;
+				}
+				else 
+					System.out.println("Numero NO valido");
 			}
+			else
+				System.out.println("El asistente NO existe");
 		}
 	}
 
-	public void addToDress(){
+	public void actPlayer(){
+		boolean exit = true;
+		while(exit){
+			System.out.println("[1] Actualizar salario\n[2] Cambiar numero de camiseta\n[3] Actualizar cantidad de goles anotados\n"+
+				"[4] Actualizar calificacion promedio");
+			int option = lector.nextInt();
+			lector.nextLine();
 
+			System.out.println("Ingrese el ID del Asistente");
+			String id = lector.nextLine();
+			boolean stop = club.findEmploy(id);
+			if(!stop){
+
+				if(option == 1){
+					System.out.println("Ingrese el nuevo salario para el jugador");
+					int salary = lector.nextInt();
+					lector.nextLine();
+					club.changeSalary(id,salary);
+					System.out.println("El salario ha sido actualizado");
+					exit = false;
+				}
+				else if(option == 2){
+					System.out.println("Ingrese el nuevo numero de camiseta para el jugador");
+					int number = lector.nextInt();
+					lector.nextLine();
+
+					String message = club.changeNumber(id,number);
+					System.out.println(message);
+					exit = false;
+				}
+				else if(option == 3){
+					System.out.println("Ingrese la cantidad de goles anotados por el jugador");
+					int amountGoals = lector.nextInt();
+					lector.nextLine();
+
+					String sign = club.putGoals(id, amountGoals);
+					System.out.println(sign);
+					exit = false;
+				}
+				else if(option == 4){
+					System.out.println("Ingrese la calificacion promedio del jugador");
+					double average = lector.nextDouble();
+					lector.nextLine();
+
+					String text = club.putAverage(id,average);
+					System.out.println(text);
+					exit = false;
+				}else
+					System.out.println("Numero NO valido");
+			}else
+				System.out.println("El jugador NO existe");
+		}
+	}
+
+	public void addLineUp(){
+		int[] date = new int[2];
+		boolean exit = true;
+		while(exit){
+
+			for(int i=0;exit;i++){
+				System.out.println("Introduzca solo el dia en que se creo la formacion");
+				date[0] = lector.nextInt();
+
+				if(date[0]<31){
+					System.out.println("Introduzca solo el mes en que se creo la formacion");
+					date[1] = lector.nextInt();
+
+					if(date[1]<12){
+						System.out.println("Introduzca solo el anio en que se creo la formacion");
+						date[2] = lector.nextInt();
+						lector.nextLine();
+						System.out.println("\nA que equipo va a agregar la alineacion?");
+						club.showTeams();
+						int team = lector.nextInt();
+
+						if(team == 1 || team == 2){
+							System.out.println("\nCuantos defensas tiene la formacion?");
+							int def = lector.nextInt();
+							if(def > 1 && def < 10){
+								System.out.println("\nCuantos mediocampistas tiene la formacion?");
+								int mc = lector.nextInt();
+								if(mc > 1 && mc < 10){
+									System.out.println("\nCuantos Delanteros tiene la formacion?");
+									int cd = lector.nextInt();
+									if(cd > 1 && cd < 10){
+										club.addLineUp(team,def,mc,cd);
+									}
+								}
+							}
+						}
+						else 
+							System.out.println("Ingreso un numero no valido");
+					}else
+						System.out.println("Mes INCORRECTO!");
+				}else
+					System.out.println("Dia INCORRECTO!");
+			}
+		}
 	}
 
 }

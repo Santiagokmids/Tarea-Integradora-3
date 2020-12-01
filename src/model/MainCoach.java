@@ -13,14 +13,14 @@ public class MainCoach extends Coach implements Price{
 	*Constructor of MainCoach <br> 
 	*<b> post: </b> Start the class MainCoach.
    */
-	public MainCoach(int yearsOfExp,int amountTeams,ArrayList championships[]){
-		super(yearsOfExp);
+	public MainCoach(String name, String id, int salary,int yearsOfExp,int amountTeams,ArrayList<String> championships){
+		super(name,id,salary,yearsOfExp);
 		this.amountTeams = amountTeams;
 		this.championships = championships;
 	}//end Constructor
 
 	public int getAmountTeams(){
-		return amountTeams
+		return amountTeams;
 	}
 
 	public void setAmountTeams(int amountTeams){
@@ -29,5 +29,10 @@ public class MainCoach extends Coach implements Price{
 
 	public ArrayList<String> getCham(){
 		return championships;
+	}
+
+	public double marketPrice(){
+		double x = 0;
+		return x;
 	}
 }
