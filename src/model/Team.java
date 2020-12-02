@@ -9,6 +9,7 @@ public class Team{
 
 	//Relationships
 	private ArrayList<Formation> formation;
+	private Formation lineUps;
 	private Players[][] intallationsA;
 	private Players[][] intallationsB;
 	private Coach[][] offices;
@@ -177,27 +178,6 @@ public class Team{
 		return message;
 	}
 
-	/*public String dressingRooms(Players player[],int team){
-		if(team == 1){
-			for(int i=0;i<7;i++){
-				int p = 0;	
-				for(int j=0;j<7;j+=2){
-					intallationsA[i][j] = player[p];
-					p++;
-				}			
-			}
-		}
-		else{
-			for(int i=0;i<7;i++){
-				int p = 0;	
-				for(int j=0;j<MAX_OFFICE;j+=2){
-					intallationsB[i][j] = player[p];
-					p++;
-				}			
-			}
-		}
-	}*/
-
 	public void changeAmountTeams(int teams){
 		main.setAmountTeams(teams);
 	}
@@ -206,24 +186,30 @@ public class Team{
 		main.getCham().add(name);
 	}
 
-	public void addMaster(String id,int master){
+	public boolean addMaster(String id,int master){
 		int i = foundAss(id);
+		boolean exit = false;
 		Master[] newMaster = new Master[assistant[i].getMaster().length + 1];
 		newMaster = assistant[i].getMaster();
 		if(newMaster.length < 6){
-			int m = findPos(newMaster);
-			Master newPro = assistant[i].putMaster(master);	
-			newMaster[m] = newPro;
-			assistant[i].setMaster(newMaster);
+			int m = findPos(id,master,newMaster);
+			if(m == -1){
+				exit = true;
+			}else{
+				Master newPro = assistant[i].putMaster(master);	
+				newMaster[m] = newPro;
+				assistant[i].setMaster(newMaster);
+			}
 		}
-		
+		return exit;
 	}
 
-	public int findPos(Master master[]){
+	public int findPos(String id,int pro,Master master[]){
 		boolean exit = true;
-		int position = 0;
+		int position = -1;
+		int p = foundAss(id);
 		for(int i = 0;i<master.length && exit;i++){
-			if(master[i] == null){
+			if(assistant[p].putMaster(pro) != master[i] && master[i] == null){
 				exit = false;
 				position = i;
 			}
@@ -238,6 +224,11 @@ public class Team{
 	public String getIdCoach(){
 		String id = main.getId();
 		return id;
+	}
+
+	public String getNameCoach(){
+		String name = main.getName();
+		return name;
 	}
 
 	public String getIdAs(String id){
@@ -276,8 +267,71 @@ public class Team{
 		player[i].setAverage(average);
 	}
 
-	public void lineUp(int def, int mc, int cd){
-		
+	public void setPosition(String id, int position){
+		int i = foundPly(id);
+		player[i].setPosition(player[i].putPosition(position));
 	}
+
+	public void lineUps(int date[],int def, int mc, int cd,int tactic){
+		int[][] lineUp = lineUps.addLinesUps(cd, mc, def);
+		Formation line = new Formation(date,lineUps.putTactic(tactic),lineUp);
+		formation.add(line);
+	}
+
+	public void asingOffice(ArrayList<Employees>employ){
+		boolean exit = true;
+		for(int i = 0;exit;i++){
+			if(employ.get(i) instanceof AssistantCoach || employ.get(i) instanceof MainCoach){
+				asign(employ.get(i));
+			}
+		}
+	}
+
+	public void asign(Employees employ){
+		boolean exit = true;
+		for(int i = 0;i<MAX_OFFICE && exit;i+2){
+			for(int j = 0;j<MAX_OFFICE && exit;j+2){
+				if(offices[i][j] == null){
+					if(employ instanceof MainCoach){
+						offices[i][j] = (MainCoach)employ;
+						exit = false; 
+					}
+					else if(employ instanceof AssistantCoach){
+						offices[i][j] = (AssistantCoach)employ;
+						exit = false; stop = false;
+					}
+				}
+			}
+		}
+	}
+
+	public String lines(){
+		String message = lineUps.messageLineUps();
+		return  message;
+	}
+
+    public String showInfoTeamA(){
+        String message = "***** Equipo A *****\n"+
+        " -Nombre del Equipo: "+getName();
+        return message;
+    }
+
+    public String showInfoTeamB(){
+        String message = "***** Equipo B *****\n"+
+        "- Nombre del Equipo: "+getName();
+        return message;
+    }
+
+    public String showOffices(){
+    	String message = "";
+    	for(int i=0;i<MAX_OFFICE;i++){
+			for(int j=0;j<MAX_OFFICE;j++){
+				message += (" ["+offices[i][j]+"] ");
+				
+			}
+			message += "\n";
+		}
+		return message;
+    }
 }
 

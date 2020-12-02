@@ -1,7 +1,7 @@
 package model;
 import java.util.*;
 
-public class MainCoach extends Coach implements Price{
+public class MainCoach extends Coach implements Price, Level{
 
 	//Atributes
 	private int amountTeams;
@@ -32,7 +32,23 @@ public class MainCoach extends Coach implements Price{
 	}
 
 	public double marketPrice(){
-		double x = 0;
-		return x;
+		double price = (super.getSalary() * 10) + (super.getYears() * 100) + ((getCham().size() + 1) * 50);
+		return price;
+	}
+
+	public double level(){
+		double level = 5 + ((getCham().size() + 1) / 10);
+		return level;
+	}
+
+	@Override
+	public String toString(){
+		String message = "", teams = "";
+		for(int i = 0;i<getCham().size();i++){
+			teams += getCham()[i]" - ";
+		}
+		message = "\n ** Entrenador Principal ** \n"+super.toString()+"\n -Equipos Totales: "+getAmountTeams()+
+		"\n -Campeonatos ganados: "+teams+"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "level();
+		return message;
 	}
 }

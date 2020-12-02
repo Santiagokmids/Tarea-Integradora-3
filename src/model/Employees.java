@@ -54,4 +54,19 @@ public abstract class Employees{
 		state = false;
 		this.state = state;
 	}
+
+	public String state(){
+		String message = "";
+		if(getState()){
+			message = "Activo";
+		}else
+			message = "Inactivo";
+		return  message;	
+	}
+
+	public String toString(){
+		String message = "";
+		message = " -Nombre: "+getName()+"\n -Identificacion: "+getId()+"\n -Salario: "+getSalary()+"\n -Estado: "+state();
+		return message;
+	}
 }

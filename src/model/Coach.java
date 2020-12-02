@@ -25,4 +25,11 @@ public class Coach extends Employees{
 		this.yearsOfExp = yearsOfExp;
 	}
 
+	@Override
+	public String toString(){
+		String message = "";
+		message = super.toString()+"\n -Anios de experiencia: "+getYears();
+		return message;
+	}
+
 }

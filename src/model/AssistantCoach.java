@@ -61,4 +61,24 @@ public class AssistantCoach extends Coach {
 		}
 		return player;
 	}
+
+	public String getMasters(){
+		String message = "";
+		for(int i = 0;1<getMaster().length;i++){
+			message += getMaster()[i];
+		}
+		return message;
+	}
+
+	@Override
+	public String toString(){
+		String message = "",really = "",masters = "";
+		if(getPlayer()){
+			really = "Fue jugador profesional";
+		}else
+			really = "No fue jugador profesional";
+		masters = getMaster();
+		message = "\n ** Entrenador Asistente ** \n"+super.toString()+"\n -"+really+"\n -Experticias: ";
+		return message;
+	}
 }

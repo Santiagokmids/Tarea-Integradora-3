@@ -36,7 +36,7 @@ public class Club{
     	return message;
     }
 
-    public boolean findEmploy(String id){
+    public boolean findEmployee(String id){
     	boolean exit = true, stop = true;
     	for(int i = 0;i<employ.size() && exit;i++){
     		String nit = employ.get(i).getId();
@@ -77,7 +77,7 @@ public class Club{
         return stop;
     }
 
-    public String addEmploy(String name, String id, int salary,int years,int amountTeams,ArrayList<String> championships,int opt){
+    public String addEmployee(String name, String id, int salary,int years,int amountTeams,ArrayList<String> championships,int opt){
         String message = "El Entrenador no pudo ser agregado. Ya hay uno en su lugar";
         if(opt == 1){
             boolean exit = teamA.verifyCoach();
@@ -96,7 +96,7 @@ public class Club{
         return message;
     }
 
-    public String addEmploy(String name, String id, int salary,int years,int opt,int master[],int team){
+    public String addEmployee(String name, String id, int salary,int years,int opt,int master[],int team){
     	String message = "El Entrenador no pudo ser agregado. Ya hay uno en su lugar";
     	if(team == 1){
     		boolean exit = teamA.verifyAss();
@@ -115,7 +115,17 @@ public class Club{
     	return message;
     }
 
-    public String addEmploy(String name, String id, int salary,int number, int position, int team){
+    public boolean findSame(int master, int pro[]){
+        boolean same = false;
+        for(int i = 0;i<pro.length;i++){
+             if(pro[i] == master){
+                same = true;
+            }
+        }   
+        return same;
+    }
+
+    public String addEmployee(String name, String id, int salary,int number, int position, int team){
         String message = "El jugador no pudo ser agregado. Ya hay el limite maximo en la plantilla";
         if(team == 1){
             boolean exit = teamA.verifyPlayer();
@@ -134,9 +144,9 @@ public class Club{
         return message;
     }
 
-    public String deleteEmploy(String id){
+    public String deleteEmployee(String id){
         String message = "";
-        boolean stop = findEmploy(id);
+        boolean stop = findEmployee(id);
         if(!stop){
              int position = positionEmploy(id);
              String nit = employ.get(position).getId();
@@ -238,13 +248,20 @@ public class Club{
     public String addMaster(String id, int master){
         String message = "No se actualizo. No hay Asistentes con ese ID ";
         int verify = findTeamAss(id); 
+        boolean sign = true;
         if(verify == 1){
-            teamA.addMaster(id,master);
-            message = "Actualizado!";
+            sign = teamA.addMaster(id,master);
+            if(!sign){
+                message = "Actualizado!";
+            }else
+                message = "La experticia ya la posee el Asistente";
         }
         else if(verify == 2){
-            teamB.addMaster(id, master);
-            message = "Actualizado!";
+            sign = teamB.addMaster(id, master);
+            if(!sign){
+                message = "Actualizado!";
+            }else
+                message = "La experticia ya la posee el Asistente"; 
         }            
         return message;  
     }
@@ -313,16 +330,71 @@ public class Club{
         return message;  
     }
 
-    public String addLineUp(int team,int def, int mc, int cd){
-        String message = "No se puede crear la formacion. Hay mas de 11 jugadores";
-        if(team == 1){
-            int amount = def + mc + cd;
-            if(amount < 11){
-                teamA.lineUp(def, mc, cd);
-            }
-        }else{
-
+     public String putNewPosition(String id, int position){
+        String message = "No se actualizo. No hay jugadores con ese ID ";
+        int verify = findTeamPly(id); 
+        if(verify == 1){
+            teamA.setPosition(id,position);
+            message = "Actualizado!";
         }
+        else if(verify == 2){
+            teamB.setPosition(id,position);
+            message = "Actualizado!";
+        }            
+        return message;  
+    }
+
+    public String addLineUps(int team,int def, int mc, int cd,int date[],int tactic){
+        String message = "No se puede crear la formacion. Hay mas de 11 jugadores";
+        int amount = def + mc + cd;
+        if(team == 1){
+            if(amount < 11){
+                teamA.lineUps(date,def, mc, cd,tactic);
+                message = "Alineacion creada!";
+            }
+        }
+        else{
+            if(amount < 11){
+                teamB.lineUps(date,def, mc, cd,tactic);
+                message = "Alineacion creada!";
+            }
+        }
+        return message;
+    }
+
+    public void office(){
+        teamA.asingOffice(employ);
+        teamB.asingOffice(employ); 
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getNit(){
+        return nit;
+    }
+
+    public int[] getFundation(){
+        return fundation;
+    }
+
+    public String showInfoClub(){
+        String message = "******* CLUB *******\n"+
+        " -Nombre del club: "+getName()+
+        " -Numero de identificacion del club: "+getNit()+
+        " -Fecha de fundacion del Club: "+getFundation()[0]+"/"+getFundation()[1]+"/"+getFundation()[2];
+        return message;
+    }
+
+    public String linesA(){
+        String message = teamA.lines();
+        return message;
+    }
+
+    public String linesB(){
+        String message = teamB.lines();
+        return message;
     }
 
 }

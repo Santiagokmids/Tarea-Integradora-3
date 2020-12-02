@@ -39,14 +39,13 @@ public class Main {
 		*<b> post: </b> The object of the Club was created.
 	   */
 	public void startApp(){
-		int[] fundation = new int[2];
-		boolean exit = true;
+		int[] fundation = new int[3];
 		System.out.println("Introduzca el nombre del Club");
 		String name = lector.nextLine();
 		
 		System.out.println("Introduzca el numero de identificacion de "+name);
 		String nit = lector.nextLine();
-
+		boolean exit = true;
 		for(int i=0;exit;i++){
 			System.out.println("Introduzca solo el dia de fundacion de "+name);
 			fundation[0] = lector.nextInt();
@@ -91,12 +90,9 @@ public class Main {
 	         System.out.println(" (1.) Contratar empleados                                               |");
 	         System.out.println(" (2.) Despedir empleados                                                |");
 	         System.out.println(" (3.) Actualizar informacion de un empleado                             |");
-	         System.out.println(" (4.) Agregar alineacion a un equipo                                   |");
-	         System.out.println(" (5.) Crear PlayList                                                    |");
-	         System.out.println(" (6.) Agregar cancion del pool al PlayList                              |");
-	         System.out.println(" (7.) Mostrar PlayList existentes                                       |");
-	         System.out.println(" (8.) Calificar una PlayList                                            |");
-	         System.out.println(" (9.) Salir de la aplicacion                                            |");
+	         System.out.println(" (4.) Agregar alineacion a un equipo                                    |");
+	         System.out.println(" (5.) Mostrar informacion de todo el club                               |");
+	         System.out.println(" (6.) Salir de la aplicacion                                            |");
 	         System.out.println("************************************************************************");
 	         int option = lector.nextInt();
 	         System.out.println("");
@@ -119,7 +115,7 @@ public class Main {
          	    break;
          	case 4:
          		System.out.println("\n** Agregar alineacion a un equipo **");
-         		
+         		addLineUps();
          	    break;
          
             default: 
@@ -166,7 +162,7 @@ public class Main {
 		System.out.println("\nIngrese la identificacion de "+name);
 		String id = lector.nextLine();
 
-		boolean stop = club.findEmploy(id);
+		boolean stop = club.findEmployee(id);
 		if(stop){
 			System.out.println("\nIngrese el salario que gana "+name);
 			int salary = lector.nextInt();
@@ -196,7 +192,7 @@ public class Main {
 			boolean exit = true;
 			while(exit){
 				if(opt >= 1 && opt <= 2){
-					String message = club.addEmploy(name,id,salary,years,amount,cham,opt);
+					String message = club.addEmployee(name,id,salary,years,amount,cham,opt);
 					System.out.println(message);
 					exit = false;
 				}
@@ -214,7 +210,7 @@ public class Main {
 
 		System.out.println("\nIngrese la identificacion de "+name);
 		String id = lector.nextLine();
-		boolean stop = club.findEmploy(id);
+		boolean stop = club.findEmployee(id);
 
 		if(stop){
 			System.out.println("\nIngrese el salario que gana "+name);
@@ -239,7 +235,11 @@ public class Main {
 							"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
 							int pro = lector.nextInt();
 							if(pro >= 1 && pro <= 6){
-								masters[i] = pro;
+								boolean same = club.findSame(pro,masters);
+								if(!same){
+									masters[i] = pro;
+								}else
+									System.out.println("El asistente ya tiene esa experticia");
 							}
 							else 
 							System.out.println("\nIngreso un numero NO valido");
@@ -250,7 +250,7 @@ public class Main {
 						lector.nextLine();
 
 						if(team == 1 || team == 2){
-							String message = club.addEmploy(name,id,salary,years,opt,masters,team);
+							String message = club.addEmployee(name,id,salary,years,opt,masters,team);
 							System.out.println(message);
 							exit = false;
 						}
@@ -274,7 +274,7 @@ public class Main {
 
 		System.out.println("\nIngrese la identificacion de "+name);
 		String id = lector.nextLine();
-		boolean stop = club.findEmploy(id);
+		boolean stop = club.findEmployee(id);
 
 		if(stop){
 			System.out.println("\nIngrese el salario que gana "+name);
@@ -295,7 +295,7 @@ public class Main {
 						System.out.println("\nIngrese la posicion de juego de "+name+"\n[1] Portero\n[2] Defensa\n[3] Volante\n[4] Delantero\n");
 						int pos = lector.nextInt();
 						if(pos >= 1 && pos<= 4){
-							String message = club.addEmploy(name,id,salary,number,pos,team);
+							String message = club.addEmployee(name,id,salary,number,pos,team);
 							System.out.println(message);
 							exit = false;
 						}
@@ -316,7 +316,7 @@ public class Main {
 	public void delete(){
 		System.out.println("\nIngrese el ID del empleado que va a Despedir");
 		String id = lector.nextLine();
-		String message = club.deleteEmploy(id);
+		String message = club.deleteEmployee(id);
 		System.out.println(message);
 	}
 
@@ -357,7 +357,7 @@ public class Main {
 
 			System.out.println("Ingrese el ID del entrenador");
 			String id = lector.nextLine();
-			boolean stop = club.findEmploy(id);
+			boolean stop = club.findEmployee(id);
 			if(!stop){
 
 				if(option == 1){
@@ -408,7 +408,7 @@ public class Main {
 
 			System.out.println("Ingrese el ID del Asistente");
 			String id = lector.nextLine();
-			boolean stop = club.findEmploy(id);
+			boolean stop = club.findEmployee(id);
 			if(!stop){
 
 				if(option == 1){
@@ -450,13 +450,13 @@ public class Main {
 		boolean exit = true;
 		while(exit){
 			System.out.println("[1] Actualizar salario\n[2] Cambiar numero de camiseta\n[3] Actualizar cantidad de goles anotados\n"+
-				"[4] Actualizar calificacion promedio");
+				"[4] Actualizar calificacion promedio\n[5] Cambiar posicion");
 			int option = lector.nextInt();
 			lector.nextLine();
 
 			System.out.println("Ingrese el ID del Asistente");
 			String id = lector.nextLine();
-			boolean stop = club.findEmploy(id);
+			boolean stop = club.findEmployee(id);
 			if(!stop){
 
 				if(option == 1){
@@ -493,57 +493,91 @@ public class Main {
 					String text = club.putAverage(id,average);
 					System.out.println(text);
 					exit = false;
-				}else
+				}
+				else if(option == 5){System.out.println("\nIngrese la nueva posicion\n[1] Portero\n[2] Defensa\n[3] Volante\n[4] Delantero\n");
+					int position = lector.nextInt();
+					lector.nextLine();
+
+					String text = club.putNewPosition(id,position);
+					System.out.println(text);
+					exit = false;
+				}
+				else
 					System.out.println("Numero NO valido");
 			}else
 				System.out.println("El jugador NO existe");
 		}
 	}
 
-	public void addLineUp(){
-		int[] date = new int[2];
+	public void addLineUps(){
 		boolean exit = true;
-		while(exit){
+		while(exit){	
+			System.out.println("\nA que equipo va a agregar la alineacion?");
+			club.showTeams();
+			int team = lector.nextInt();
+			int[] date = dates();
 
-			for(int i=0;exit;i++){
-				System.out.println("Introduzca solo el dia en que se creo la formacion");
-				date[0] = lector.nextInt();
+			System.out.println("\nQue tactica se usa en la formacion?\n");
+			System.out.println("[1] Posesion\n[2] ContraAtaque\n[3] Presion Alta\n[4] Por defecto\n");
+			int tactic = lector.nextInt();
+			if(tactic >= 1 && tactic <= 4){
 
-				if(date[0]<31){
-					System.out.println("Introduzca solo el mes en que se creo la formacion");
-					date[1] = lector.nextInt();
+				if(team == 1 || team == 2){
+					System.out.println("\nCuantos defensas tiene la formacion?");
+					int def = lector.nextInt();
 
-					if(date[1]<12){
-						System.out.println("Introduzca solo el anio en que se creo la formacion");
-						date[2] = lector.nextInt();
-						lector.nextLine();
-						System.out.println("\nA que equipo va a agregar la alineacion?");
-						club.showTeams();
-						int team = lector.nextInt();
+					if(def > 1 && def < 10){
+						System.out.println("\nCuantos mediocampistas tiene la formacion?");
+						int mc = lector.nextInt();
 
-						if(team == 1 || team == 2){
-							System.out.println("\nCuantos defensas tiene la formacion?");
-							int def = lector.nextInt();
-							if(def > 1 && def < 10){
-								System.out.println("\nCuantos mediocampistas tiene la formacion?");
-								int mc = lector.nextInt();
-								if(mc > 1 && mc < 10){
-									System.out.println("\nCuantos Delanteros tiene la formacion?");
-									int cd = lector.nextInt();
-									if(cd > 1 && cd < 10){
-										club.addLineUp(team,def,mc,cd);
-									}
-								}
-							}
-						}
-						else 
-							System.out.println("Ingreso un numero no valido");
-					}else
-						System.out.println("Mes INCORRECTO!");
-				}else
-					System.out.println("Dia INCORRECTO!");
-			}
+						if(mc > 1 && mc < 10){
+							System.out.println("\nCuantos Delanteros tiene la formacion?");
+							int cd = lector.nextInt();
+
+							if(cd > 1 && cd < 10){
+								String message = club.addLineUps(team,def,mc,cd,date,tactic);
+								System.out.println(message);
+
+							}else 
+								System.out.println("En la formacion debe haber al menos un Delantero");
+						}else 
+							System.out.println("En la formacion debe haber al menos un mediocampista");
+					}else 
+						System.out.println("En la formacion debe haber al menos un defensa");
+				}else 
+					System.out.println("Ingreso un numero NO valido");
+			}else
+				System.out.println("Ingreso un numero NO valido");
 		}
+	}
+
+	public int[] dates(){
+		int[] date = new int[3];
+		boolean exit = true;
+		for(int i=0;exit;i++){
+			System.out.println("Introduzca solo el dia en que se creo la formacion");
+			date[0] = lector.nextInt();
+
+			if(date[0]<31){
+				System.out.println("Introduzca solo el mes en que se creo la formacion");
+				date[1] = lector.nextInt();
+				
+				if(date[1]<12){
+					System.out.println("Introduzca solo el anio en que se creo la formacion");
+					date[2] = lector.nextInt();
+					lector.nextLine();
+					exit = false;
+				
+				}else
+					System.out.println("Mes INCORRECTO!");
+			}else
+				System.out.println("Dia INCORRECTO!");
+		}
+		return date;
+	}
+
+	public void showInfo(){
+		
 	}
 
 }
