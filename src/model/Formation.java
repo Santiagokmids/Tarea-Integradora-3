@@ -52,7 +52,7 @@ public class Formation{
 		return formation;
 	}
 
-	public String messageLineUps(int formation[][]){
+	public String messageLineUps(){
 		int def = 0, mc = 0, dc = 0;
 		for(int i = 0;i<3;i++){
 			for(int j = 0;j<WIDTH;j++){

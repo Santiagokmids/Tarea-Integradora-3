@@ -45,10 +45,10 @@ public class MainCoach extends Coach implements Price, Level{
 	public String toString(){
 		String message = "", teams = "";
 		for(int i = 0;i<getCham().size();i++){
-			teams += getCham()[i]" - ";
+			teams += getCham().get(i)+" - ";
 		}
 		message = "\n ** Entrenador Principal ** \n"+super.toString()+"\n -Equipos Totales: "+getAmountTeams()+
-		"\n -Campeonatos ganados: "+teams+"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "level();
+		"\n -Campeonatos ganados: "+teams+"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "+level();
 		return message;
 	}
 }

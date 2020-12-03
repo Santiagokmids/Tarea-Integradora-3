@@ -29,8 +29,8 @@ public class Main {
 		*<b> post: </b> The icon of the app in screen.
 	   */
 	public void showIcon(){
-		System.out.println("\n  *** BIENVENIDOS ***   \n");
-		System.out.println("****************************");
+		System.out.println("\n  ************* BIENVENIDOS *************   \n");
+		System.out.println("*************************************************");
 	}
 
 	 /** 
@@ -50,11 +50,11 @@ public class Main {
 			System.out.println("Introduzca solo el dia de fundacion de "+name);
 			fundation[0] = lector.nextInt();
 
-			if(fundation[0]<31){
+			if(fundation[0]<=31){
 				System.out.println("Introduzca solo el mes de fundacion de "+name);
 				fundation[1] = lector.nextInt();
 
-				if(fundation[1]<12){
+				if(fundation[1]<=12){
 					System.out.println("Introduzca solo el anio de fundacion de "+name);
 					fundation[2] = lector.nextInt();
 					lector.nextLine();
@@ -87,12 +87,13 @@ public class Main {
              System.out.println("------------------------------------------------------");
 	         System.out.println("");
 	         System.out.println("************************************************************************");
-	         System.out.println(" (1.) Contratar empleados                                               |");
-	         System.out.println(" (2.) Despedir empleados                                                |");
-	         System.out.println(" (3.) Actualizar informacion de un empleado                             |");
-	         System.out.println(" (4.) Agregar alineacion a un equipo                                    |");
-	         System.out.println(" (5.) Mostrar informacion de todo el club                               |");
-	         System.out.println(" (6.) Salir de la aplicacion                                            |");
+	         System.out.println("  (1.) Contratar empleados                                               |");
+	         System.out.println("  (2.) Despedir empleados                                                |");
+	         System.out.println("  (3.) Actualizar informacion de un empleado                             |");
+	         System.out.println("  (4.) Agregar alineacion a un equipo                                    |");
+	         System.out.println("  (5.) Mostrar informacion de todo el club                               |");
+	         System.out.println("  (6.) Mostrar informacion especifica                                    |");
+	         System.out.println("  (7.) Salir de la aplicacion                                            |");
 	         System.out.println("************************************************************************");
 	         int option = lector.nextInt();
 	         System.out.println("");
@@ -100,22 +101,38 @@ public class Main {
          
          switch(option){
          	case 1: 
-         	   System.out.println("\n** Contratar empleados **");
+         	   System.out.println("\n ***** Contratar empleados *****");
          	   menuEmploy();
          	   break;
 
          	case 2:
-         		System.out.println("\n** Despedir empleados **");
+         		System.out.println("\n ***** Despedir empleados *****");
          		delete();
          	    break;
 
          	case 3:
-         		System.out.println("\n** Actualizar informacion de un empleado **");
+         		System.out.println("\n ***** Actualizar informacion de un empleado *****");
          		menuAct();
          	    break;
+
          	case 4:
-         		System.out.println("\n** Agregar alineacion a un equipo **");
+         		System.out.println("\n ***** Agregar alineacion a un equipo *****");
          		addLineUps();
+         	    break;
+
+         	case 5:
+         		System.out.println("\n ***** Informacion del Club *****");
+         		showInfo();
+         	    break;
+
+         	case 6:
+         		System.out.println("\n ***** Informacion en especifico *****");
+         		showInfo();
+         	    break;
+
+         	case 7:
+         		System.out.println("\n *** Gracias por usar nuestra aplicacion *** ");
+         		stop = true;
          	    break;
          
             default: 
@@ -128,7 +145,7 @@ public class Main {
 		boolean stop = false;
 		while(!stop){
 			System.out.println("\nQue opcion desea realizar?\n");
-			System.out.println("[1] Contratar entrenador principal\n[2] Contratar entrenador asistente\n[3]Contratar jugador\n[0]Salir al menu principal\n");
+			System.out.println("[1] Contratar entrenador principal\n[2] Contratar entrenador asistente\n[3] Contratar jugador\n[0] Salir al menu principal\n");
 			int option = lector.nextInt();
 			lector.nextLine();
 			switch(option){
@@ -180,13 +197,14 @@ public class Main {
 			ArrayList<String>cham = new ArrayList<String>();
 			System.out.println("\nIngrese el nombre de los campeonatos");
 
-			for (int i = 0;i<cham.size();i++) {
+			for(int i = 0;i<champions;i++){
 				System.out.println("\nCampeonato "+(i+1));
 				String nameCham = lector.nextLine();
 				cham.add(nameCham);
 			}
 			System.out.println("\nDe que equipo va a ser entrenador?");
-			club.showTeams();
+			String teams = club.showTeams();
+			System.out.println(teams);
 			int opt = lector.nextInt();
 			lector.nextLine();
 			boolean exit = true;
@@ -245,7 +263,8 @@ public class Main {
 							System.out.println("\nIngreso un numero NO valido");
 						}
 						System.out.println("\nDe que equipo va a ser Asistente?");
-						club.showTeams();
+						String teams = club.showTeams();
+						System.out.println(teams);
 						int team = lector.nextInt();
 						lector.nextLine();
 
@@ -281,7 +300,8 @@ public class Main {
 			int salary = lector.nextInt();
 
 			System.out.println("\nDe que equipo va a ser jugador?");
-			club.showTeams();
+			String teams = club.showTeams();
+			System.out.println(teams);
 			int team = lector.nextInt();
 
 			boolean exit = true;
@@ -537,6 +557,9 @@ public class Main {
 							if(cd > 1 && cd < 10){
 								String message = club.addLineUps(team,def,mc,cd,date,tactic);
 								System.out.println(message);
+								if(message.equals("Alineacion creada!")){
+									exit = false;
+								}
 
 							}else 
 								System.out.println("En la formacion debe haber al menos un Delantero");
@@ -577,7 +600,77 @@ public class Main {
 	}
 
 	public void showInfo(){
-		
+		String show = "";
+		show = club.showInfoClub()+"\n";
+
+		show += club.showInfoA()+"\n";
+		show += club.showEmployeesA();
+		show += club.linesA()+"\n";
+		show += club.installations()+"\n";
+
+		show += club.showInfoB()+"\n";
+		show += club.showEmployeesB();
+		show += club.linesB()+"\n";
+		show += club.installationsB()+"\n";
+		show += club.showOffices()+"\n";
+
+		System.out.println(show);
+	}
+
+	public void menuTeams(){
+		boolean stop = false;
+		while(!stop){
+			System.out.println("\nQue opcion desea realizar?\n");
+			System.out.println("[1] Informacion de el equipo A\n[2] Informacion del equipo B\n"+
+				"[3]Entrenadores en las oficinas\n[0]Sal  ir al menu principal\n");
+			int option = lector.nextInt();
+			lector.nextLine();
+			switch(option){
+
+				case 1:
+					showInfoTeamA();
+					break; 
+
+				case 2:
+					showInfoTeamB();
+					break; 
+
+				case 3:
+					showOffice();
+					break;
+
+				case 0:
+					stop = true;
+					break; 	
+
+				default: 
+                	System.out.println("\nIngreso un numero NO valido");
+			}
+		}
+	}
+
+	public void showInfoTeamA(){
+		String show = "";
+		show += club.showInfoA()+"\n";
+		show += club.showEmployeesA();
+		show += club.linesA()+"\n";
+		show += club.installations()+"\n";
+		System.out.println(show);
+	}
+
+	public void showInfoTeamB(){
+		String show = "";
+		show += club.showInfoB()+"\n";
+		show += club.showEmployeesB();
+		show += club.linesB()+"\n";
+		show += club.installationsB()+"\n";
+		System.out.println(show);
+	}
+
+	public void showOffice(){
+		String show = "";
+		show = club.showOffices()+"\n";
+		System.out.println(show);
 	}
 
 }

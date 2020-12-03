@@ -6,12 +6,13 @@ public class Team{
 	//Constants
 	public final static int MAX_OFFICE = 6;
 	public final static int PLAY = 25;
+	public final static int MAX_WIDTH = 7;
 
 	//Relationships
 	private ArrayList<Formation> formation;
 	private Formation lineUps;
-	private Players[][] intallationsA;
-	private Players[][] intallationsB;
+	private Players[][] installationsA;
+	private Players[][] installationsB;
 	private Coach[][] offices;
 	private MainCoach main;
 	private AssistantCoach[] assistant;
@@ -34,9 +35,9 @@ public class Team{
 		player = new Players[PLAY];
 		assistant = new AssistantCoach[3];
 		formation = new ArrayList<Formation>();
-	 	Coach[][] offices = new Coach[MAX_OFFICE][MAX_OFFICE];
-	 	Players[][] intallationsA = new Players[7][7];
-	 	Players[][] intallationsB = new Players[7][MAX_OFFICE];
+		offices = new Coach[MAX_OFFICE][MAX_OFFICE];
+	 	installationsA = new Players[MAX_WIDTH][MAX_WIDTH];
+	 	installationsB = new Players[MAX_WIDTH][MAX_OFFICE];
 	 }//end Constructor
 
 	public boolean verifyCoach(){
@@ -272,7 +273,7 @@ public class Team{
 		player[i].setPosition(player[i].putPosition(position));
 	}
 
-	public void lineUps(int date[],int def, int mc, int cd,int tactic){
+	public void lineUp(int date[],int def, int mc, int cd,int tactic){
 		int[][] lineUp = lineUps.addLinesUps(cd, mc, def);
 		Formation line = new Formation(date,lineUps.putTactic(tactic),lineUp);
 		formation.add(line);
@@ -289,8 +290,8 @@ public class Team{
 
 	public void asign(Employees employ){
 		boolean exit = true;
-		for(int i = 0;i<MAX_OFFICE && exit;i+2){
-			for(int j = 0;j<MAX_OFFICE && exit;j+2){
+		for(int i = 0;i<MAX_OFFICE && exit;i+=2){
+			for(int j = 0;j<MAX_OFFICE && exit;j+=2){
 				if(offices[i][j] == null){
 					if(employ instanceof MainCoach){
 						offices[i][j] = (MainCoach)employ;
@@ -298,40 +299,172 @@ public class Team{
 					}
 					else if(employ instanceof AssistantCoach){
 						offices[i][j] = (AssistantCoach)employ;
-						exit = false; stop = false;
+						exit = false; 
 					}
 				}
 			}
 		}
 	}
 
-	public String lines(){
-		String message = lineUps.messageLineUps();
-		return  message;
-	}
-
-    public String showInfoTeamA(){
-        String message = "***** Equipo A *****\n"+
-        " -Nombre del Equipo: "+getName();
-        return message;
-    }
-
-    public String showInfoTeamB(){
-        String message = "***** Equipo B *****\n"+
-        "- Nombre del Equipo: "+getName();
-        return message;
-    }
-
-    public String showOffices(){
-    	String message = "";
-    	for(int i=0;i<MAX_OFFICE;i++){
-			for(int j=0;j<MAX_OFFICE;j++){
-				message += (" ["+offices[i][j]+"] ");
-				
+	public String offices(){
+		String message = "";
+		boolean exit = true;
+		for(int i=0;i<MAX_OFFICE && exit;i++){
+			for(int j=0;j<MAX_OFFICE && exit;j++){
+				if(offices[i][j] != null){
+					message += " ["+offices[i][j].getName()+"] ";
+				}
+				else if(offices[0][0] == null){
+					message = "No hay entrenadores en las oficinas";
+					exit = false;
+				}
+				else if(offices[i][j] == null){
+					message += "[x]";
+				}
 			}
 			message += "\n";
 		}
 		return message;
+	}
+
+	public String lines(){
+		String message = " **** Alineaciones **** \n";
+		if(formation.size() == 0){
+			message = "\nNo hay Alineaciones creadas";
+		}else{
+			for(int i = 0;i<formation.size();i++){
+				message += " ["+formation.get(i).messageLineUps()+"] ";
+			}
+		}
+		return  message;
+	}
+
+    public String showInfoTeam(){
+        String message = "***** Equipo *****\n"+
+        " -Nombre del Equipo: "+getName();
+        return message;
+    }
+
+    public int countPlayers(){
+    	int count = 0;
+    	for(int p = 0;p<player.length;p++){
+    		if(player[p] != null){
+    			count += 1;
+    		}
+    	}
+    	return count;
+    }
+
+    public String playerPositionA(){
+    	String message = "";
+    	boolean exit = true;
+    	Players[] players = new Players[countPlayers()];
+    	for(int p = 0;p<player.length;p++){
+    		for(int m = 0;m<players.length && exit;m++){
+    			if(player[p] != null && player[m] == null){
+    				players[m] = player[p];
+    				exit = false;
+    			}
+    		}	
+    	}
+	   	List<Players>installations = Arrays.asList(player);
+	 	Collections.shuffle(installations);
+	  	installations.toArray(player);
+
+	  	for(int i = 0;i<player.length;i++){
+	  		if(player[i] != null){
+	  			message += installationsA(installations.get(i));
+	  		}
+	   	}
+    	return message;
+    }
+
+    public String installationsA(Players player){
+    	String message = "";
+    	boolean exit = true;
+    	for(int i = 0;i<MAX_WIDTH && exit;i++){
+			for(int j = 0;j<MAX_WIDTH && exit;j+=2){
+				if(installationsA[i][j] == null && player != null){
+					installationsA[i][j] = player;
+					message = " ["+installationsA[i][j].getName()+"] ";
+					exit = false; 
+				}if(j == MAX_WIDTH-1){
+					message += "\n";
+				}
+			}
+		}
+		return  message;
+    }
+
+    public String playerPositionB(){
+    	String message = "";
+    	boolean exit = true;
+    	Players[] players = new Players[countPlayers()];
+    	for(int p = 0;p<player.length;p++){
+    		for(int m = 0;m<players.length && exit;m++){
+    			if(player[p] != null && player[m] == null){
+    				players[m] = player[p];
+    				exit = false;
+    			}
+    		}	
+    	}
+	   	List<Players>installations = Arrays.asList(player);
+	 	Collections.shuffle(installations);
+	  	installations.toArray(player);
+
+	  	for(int i = 0;i<player.length;i++){
+	  		if(player[i] != null){
+	  			message += installationsB(installations.get(i));
+	  		}
+	   	}
+    	return message;
+    }
+
+    public String installationsB(Players player){
+    	String message = "";
+    	boolean exit = true;
+    	for(int i = 0;i<MAX_WIDTH && exit;i++){
+			for(int j = 0;j<MAX_OFFICE && exit;j+=2){
+				if(installationsB[i][j] == null && player != null){
+					installationsB[i][j] = player;
+					message = " ["+installationsB[i][j].getName()+"] ";
+					exit = false; 
+				}if(j == MAX_OFFICE-1){
+					message += "\n";
+				}
+			}
+		}
+		return  message;
+    }
+
+    public String showEmployees(){
+    	String message = "";
+    	if(main != null){
+    		message += main.toString()+"\n";
+    	}else
+    		message += "El Equipo no tiene entrenador principal\n";
+    	if(assistant[0] != null){
+    		boolean exit = true;
+    		for(int i = 0;i<assistant.length && exit;i++){
+    			if(assistant[i] == null){
+    				exit = false;
+    			}else
+    				message += assistant[i].toString()+"\n";
+    		}
+    	}else 
+    		message += "El Equipo no tiene entrenadores asistentes\n";
+
+    	if(player[0] != null){
+    		boolean stop = true;
+    		for(int i = 0;i<player.length && stop;i++){
+    			if(player[i] == null){
+    				stop = false;
+    			}else
+    				message += player[i].toString()+"\n";
+    		}	
+    	}else 
+    		message += "El Equipo no tiene jugadores\n";
+    	return message;
     }
 }
 

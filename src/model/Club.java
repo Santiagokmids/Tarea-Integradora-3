@@ -348,14 +348,14 @@ public class Club{
         String message = "No se puede crear la formacion. Hay mas de 11 jugadores";
         int amount = def + mc + cd;
         if(team == 1){
-            if(amount < 11){
-                teamA.lineUps(date,def, mc, cd,tactic);
+            if(amount == 10){
+                teamA.lineUp(date,def, mc, cd,tactic);
                 message = "Alineacion creada!";
             }
         }
         else{
             if(amount < 11){
-                teamB.lineUps(date,def, mc, cd,tactic);
+                teamB.lineUp(date,def, mc, cd,tactic);
                 message = "Alineacion creada!";
             }
         }
@@ -379,12 +379,48 @@ public class Club{
         return fundation;
     }
 
+    public String installations(){
+        String message = "";
+        message = teamA.playerPositionA();
+        return message;
+    }
+
+     public String installationsB(){
+        String message = "";
+        message = teamB.playerPositionB();
+        return message;
+    }
+
     public String showInfoClub(){
         String message = "******* CLUB *******\n"+
-        " -Nombre del club: "+getName()+
-        " -Numero de identificacion del club: "+getNit()+
-        " -Fecha de fundacion del Club: "+getFundation()[0]+"/"+getFundation()[1]+"/"+getFundation()[2];
+        " -Nombre del club: "+getName()+"\n"+
+        " -Numero de identificacion del club: "+getNit()+"\n"+
+        " -Fecha de fundacion del Club: "+getFundation()[0]+"/"+getFundation()[1]+"/"+getFundation()[2]+"\n";
         return message;
+    }
+
+    public String showInfoA(){
+        String message = "";
+        message = teamA.showInfoTeam();
+        return  message;
+    }
+
+    public String showEmployeesA(){
+        String message = "";
+        message = teamA.showEmployees();
+        return message;
+    }
+
+    public String showEmployeesB(){
+        String message = "";
+        message = teamB.showEmployees();
+        return message;
+    }
+
+    public String showInfoB(){
+        String message = "";
+        message = teamB.showInfoTeam();
+        return  message;
     }
 
     public String linesA(){
@@ -397,4 +433,8 @@ public class Club{
         return message;
     }
 
+    public String showOffices(){
+        String message = teamA.offices();
+        return message;
+    }
 }

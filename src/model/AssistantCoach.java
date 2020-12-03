@@ -77,8 +77,8 @@ public class AssistantCoach extends Coach {
 			really = "Fue jugador profesional";
 		}else
 			really = "No fue jugador profesional";
-		masters = getMaster();
-		message = "\n ** Entrenador Asistente ** \n"+super.toString()+"\n -"+really+"\n -Experticias: ";
+		masters = getMasters();
+		message = "\n ** Entrenador Asistente ** \n"+super.toString()+"\n -"+really+"\n -Experticias: "+getMasters();
 		return message;
 	}
 }
