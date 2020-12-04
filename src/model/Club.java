@@ -364,11 +364,6 @@ public class Club{
         return message;
     }
 
-    public void office(){
-        teamA.asingOffice(employ);
-        teamB.asingOffice(employ); 
-    }
-
     public String getName(){
         return name;
     }
