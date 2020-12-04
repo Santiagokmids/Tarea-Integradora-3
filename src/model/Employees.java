@@ -50,8 +50,7 @@ public abstract class Employees{
 		return state;
 	}
 
-	public void setState(){
-		state = false;
+	public void setState(boolean state){
 		this.state = state;
 	}
 

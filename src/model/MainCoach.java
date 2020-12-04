@@ -32,7 +32,7 @@ public class MainCoach extends Coach implements Price, Level{
 	}
 
 	public double marketPrice(){
-		double price = (super.getSalary() * 10) + (super.getYears() * 100) + ((getCham().size() + 1) * 50);
+		double price = (super.getSalary() * 10) + (super.getYears() * 100) + (getCham().size() * 50);
 		return price;
 	}
 
@@ -44,9 +44,12 @@ public class MainCoach extends Coach implements Price, Level{
 
 	@Override
 	public String toString(){
-		String message = "", teams = "";
-		for(int i = 0;i<getCham().size();i++){
-			teams += getCham().get(i)+" - ";
+		String message = "", teams = "0";
+		if(getCham().size() > 0){
+			teams = "";
+			for(int i = 0;i<getCham().size();i++){
+				teams += getCham().get(i)+" - ";
+			}
 		}
 		message = "\n ** Entrenador Principal ** \n"+super.toString()+"\n -Equipos Totales: "+getAmountTeams()+
 		"\n -Campeonatos ganados: "+teams+"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "+level()+"\n";

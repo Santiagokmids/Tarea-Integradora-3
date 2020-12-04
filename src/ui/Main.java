@@ -308,22 +308,24 @@ public class Main {
 				if(team >= 1 && team <=2){
 					System.out.println("\nIngrese el numero de la camiseta de "+name);
 					int number = lector.nextInt();
-					lector.nextLine();
-					boolean shirt = club.shirtNum(number,team);
-
-					if(shirt){
-						System.out.println("\nIngrese la posicion de juego de "+name+"\n[1] Portero\n[2] Defensa\n[3] Volante\n[4] Delantero\n");
-						int pos = lector.nextInt();
-						if(pos >= 1 && pos<= 4){
-							String message = club.addEmployee(name,id,salary,number,pos,team);
-							System.out.println(message);
-							exit = false;
+					if(number >= 1 && number <100){
+						lector.nextLine();
+						boolean shirt = club.shirtNum(number,team);
+						if(shirt){
+							System.out.println("\nIngrese la posicion de juego de "+name+"\n[1] Portero\n[2] Defensa\n[3] Volante\n[4] Delantero\n");
+							int pos = lector.nextInt();
+							if(pos >= 1 && pos<= 4){
+								String message = club.addEmployee(name,id,salary,number,pos,team);
+								System.out.println(message);
+								exit = false;
+							}
+							else 
+								System.out.println("\nIngreso un numero NO valido");
 						}
-						else 
-							System.out.println("\nIngreso un numero NO valido");
-					}
-					else
-						System.out.println("\nEl numero ya lo usa otro jugador. Seleccione otro");
+						else
+							System.out.println("\nEl numero ya lo usa otro jugador. Seleccione otro");
+					}else
+						System.out.println("\nNumero INVALIDO. Debe ser entre 1 y 99");
 				}
 				else 
 					System.out.println("\nIngreso un numero NO valido");
@@ -579,42 +581,46 @@ public class Main {
 			String teams = club.showTeams();
 			System.out.println(teams);
 			int team = lector.nextInt();
-			int[] date = dates();
+			if(team == 1 || team == 2){
+				int[] date = dates();
 
-			System.out.println("\nQue tactica se usa en la formacion?\n");
-			System.out.println("[1] Posesion\n[2] ContraAtaque\n[3] Presion Alta\n[4] Por defecto\n");
-			int tactic = lector.nextInt();
-			if(tactic >= 1 && tactic <= 4){
+				System.out.println("\nQue tactica se usa en la formacion?\n");
+				System.out.println("[1] Posesion\n[2] ContraAtaque\n[3] Presion Alta\n[4] Por defecto\n");
+				int tactic = lector.nextInt();
+				
+				if(tactic >= 1 && tactic <= 4){
 
-				if(team == 1 || team == 2){
-					System.out.println("\nCuantos defensas tiene la formacion?");
-					int def = lector.nextInt();
+					if(team == 1 || team == 2){
+						System.out.println("\nCuantos defensas tiene la formacion?");
+						int def = lector.nextInt();
 
-					if(def >= 1 && def < 10){
-						System.out.println("\nCuantos mediocampistas tiene la formacion?");
-						int mc = lector.nextInt();
+						if(def >= 1 && def < 10){
+							System.out.println("\nCuantos mediocampistas tiene la formacion?");
+							int mc = lector.nextInt();
 
-						if(mc >= 1 && mc < 10){
-							System.out.println("\nCuantos Delanteros tiene la formacion?");
-							int cd = lector.nextInt();
+							if(mc >= 1 && mc < 10){
+								System.out.println("\nCuantos Delanteros tiene la formacion?");
+								int cd = lector.nextInt();
 
-							if(cd >= 1 && cd < 10){
-								String message = club.addLineUps(team,def,mc,cd,date,tactic);
-								System.out.println(message);
-								if(message.equals("Alineacion creada!")){
-									exit = false;
-								}
+								if(cd >= 1 && cd < 10){
+									String message = club.addLineUps(team,def,mc,cd,date,tactic);
+									System.out.println(message);
+									if(message.equals("Alineacion creada!")){
+										exit = false;
+									}
 
+								}else 
+									System.out.println("En la formacion debe haber al menos un Delantero");
 							}else 
-								System.out.println("En la formacion debe haber al menos un Delantero");
+								System.out.println("En la formacion debe haber al menos un mediocampista");
 						}else 
-							System.out.println("En la formacion debe haber al menos un mediocampista");
+							System.out.println("En la formacion debe haber al menos un defensa");
 					}else 
-						System.out.println("En la formacion debe haber al menos un defensa");
-				}else 
+						System.out.println("Ingreso un numero NO valido");
+				}else
 					System.out.println("Ingreso un numero NO valido");
 			}else
-				System.out.println("Ingreso un numero NO valido");
+				System.out.println("Numero INVALIDO");
 		}
 	}
 

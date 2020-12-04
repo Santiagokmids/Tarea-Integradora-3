@@ -26,14 +26,6 @@ public class Players extends Employees implements Price, Level {
 		this.position = position;
 	}//end Constructor
 
-	public boolean verifyShirt(int number){
-		boolean exit = false;
-		if(number >= 1 && number<100){
-			exit = true;
-		}
-		return exit;
-	}
-
 	public int getShirtNum(){
 		return shirtNum;
 	}

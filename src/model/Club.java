@@ -352,13 +352,13 @@ public class Club{
         if(team == 1){
             if(amount == 10){
                 teamA.lineUp(date,def, mc, cd,tactic);
-                message = "\nAlineacion creada!";
+                message = "Alineacion creada!";
             }
         }
         else{
             if(amount < 11){
                 teamB.lineUp(date,def, mc, cd,tactic);
-                message = "\nAlineacion creada!";
+                message = "Alineacion creada!";
             }
         }
         return message;
@@ -431,7 +431,13 @@ public class Club{
     }
 
     public String showOffices(){
-        teamA.asingOffice(employ);
+        ArrayList<Employees>employs = new ArrayList<Employees>();
+        for(int i = 0;i<employ.size();i++){
+            if(employ.get(i).getState()){
+                employs.add(employ.get(i));
+            }
+        }
+        teamA.asingOffice(employs);
         String message = "***** OCUPACION EN LAS OFICINAS *****\n"+teamA.offices();
         return message;
     }

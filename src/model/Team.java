@@ -122,8 +122,7 @@ public class Team{
 		boolean stop = false; 
 		for(int i = 0;i<player.length;i++){
 			if(player[i] != null){
-			 	boolean shirt = player[i].verifyShirt(number);
-				if(shirt && player[i].getShirtNum() == number){
+				if(player[i].getShirtNum() == number){
 					stop = true;
 				}
 			}
@@ -210,9 +209,10 @@ public class Team{
 	public String deleteEmploy(String id){
 		String message = "";
 		if(main.getId().equalsIgnoreCase(id)){
-			countMain--;
-			main.setState();
+			boolean exit = false;
+			main.setState(exit);
 			message = "El entrenador "+main.getName()+" fue despedido";
+			main = null;
 		}
 		boolean exit = true;
 		for(int i = 0;i<assistant.length && exit;i++){
@@ -391,6 +391,11 @@ public class Team{
 
 	public void asingOffice(ArrayList<Employees>employ){
 		boolean exit = true;
+		for(int i = 0;i<MAX_OFFICE;i++){
+			for(int j = 0;j<MAX_OFFICE;j++){
+				offices[i][j] = null;
+			}
+		}
 		for(int i = 0;i<employ.size() && exit;i++){
 			if(employ.get(i) instanceof AssistantCoach || employ.get(i) instanceof MainCoach){
 				asign(employ.get(i));
@@ -403,7 +408,10 @@ public class Team{
 		int count = 0;
 		for(int i = 0;i<MAX_OFFICE && exit;i+=2){
 			for(int j = 0;j<MAX_OFFICE && exit;j+=2){
-				if((Employees)offices[i][j] != employ || (Employees)offices[i][j] != employ){
+				if((Employees)offices[i][j] == employ && !employ.getState()){
+					offices[i][j] = null;
+				}
+				else if((Employees)offices[i][j] != employ || (Employees)offices[i][j] != employ){
 					count += 1;
 				}
 			}
@@ -492,14 +500,11 @@ public class Team{
 	 	Collections.shuffle(installations);
 	  	installations.toArray(player);
 	  	message = " \n***** Jugadores en los Camerinos *****\n";
-	  	if(player[0] == null && player[1] == null){
-			message = " \nNo hay jugadores en los Camerinos\n";
-	  	}
-	  	for(int i = 0;i<player.length;i++){
+		for(int i = 0;i<player.length;i++){
 	  		if(player[i] != null){
 	  			message += installationsA(installations.get(i));
 	  		}
-	   	}
+	  	}
     	return message;
     }
 
@@ -536,13 +541,8 @@ public class Team{
 	 	Collections.shuffle(installations);
 	  	installations.toArray(player);
 	  	message = " \n***** Jugadores en los Camerinos *****\n";
-
-	  	if(player[0] == null && player[1] == null){
-			message = " \nNo hay jugadores en los Camerinos\n";
-	  	}
 	  	for(int i = 0;i<player.length;i++){
 	  		if(player[i] != null){
-	  			message = " \n***** Jugadores en los Camerinos *****\n";
 	  			message += installationsB(installations.get(i));
 	  		}
 	   	}
