@@ -45,8 +45,17 @@ public class Formation{
 				def += formation[i][j];
 			}
 		}
-		String message = def+"-"+mc+"-"+dc;
+		String message = def+"-"+mc+"-"+dc+" creada el dia: "+getDate()[0]+"/"+getDate()[1]+"/"+getDate()[2]+
+		" con una tactica de "+getTactic();
 		return message;
+	}
+
+	public int[] getDate(){
+		return date;
+	}
+
+	public Tactic getTactic(){
+		return tactic;
 	}
 
 }

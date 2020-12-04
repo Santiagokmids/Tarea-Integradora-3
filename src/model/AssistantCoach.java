@@ -3,6 +3,9 @@ import java.util.*;
 
 public class AssistantCoach extends Coach {
 
+	//Relationships
+	private Master masters;
+
 	//Atributes
 	private boolean playerOrNot;
 	private Master[] master;
