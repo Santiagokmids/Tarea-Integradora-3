@@ -7,10 +7,10 @@ public class Team{
 	public final static int MAX_OFFICE = 6;
 	public final static int PLAY = 25;
 	public final static int MAX_WIDTH = 7;
+	public final static int MAX_LONG = 10;
 
 	//Relationships
 	private ArrayList<Formation> formation;
-	private Formation lineUps;
 	private Players[][] installationsA;
 	private Players[][] installationsB;
 	private Coach[][] offices;
@@ -31,7 +31,6 @@ public class Team{
 	public Team(String name){
 		this.name = name;
 		countMain = 0;
-		main = null;
 		player = new Players[PLAY];
 		assistant = new AssistantCoach[3];
 		formation = new ArrayList<Formation>();
@@ -39,6 +38,10 @@ public class Team{
 	 	installationsA = new Players[MAX_WIDTH][MAX_WIDTH];
 	 	installationsB = new Players[MAX_WIDTH][MAX_OFFICE];
 	 }//end Constructor
+
+	public void setName(String name){
+		this.name = name;
+	}
 
 	public boolean verifyCoach(){
 		boolean stop = false;
@@ -50,7 +53,7 @@ public class Team{
 
 	public boolean verifyAss(){
 		boolean stop = false;
-		if(assistant[3] != null){
+		if(assistant[2] != null){
 			stop = true; 
 		}
 		return stop; 
@@ -58,7 +61,7 @@ public class Team{
 
 	public boolean verifyPlayer(){
 		boolean stop = false;
-		if(player[25] != null){
+		if(player[24] != null){
 			stop = true; 
 		}
 		return stop; 
@@ -94,7 +97,7 @@ public class Team{
 		boolean exit = true;
 		int i = 0, position = -1;
 		while(exit && i<player.length){
-			if(player[i] != null && player[i].getName().equalsIgnoreCase(id)){
+			if(player[i] != null && player[i].getId().equalsIgnoreCase(id)){
 				position = i;
 				exit = false;
 			}
@@ -105,23 +108,22 @@ public class Team{
 
 	public int findPlayer(){
 		boolean exit = true;
-		int i = 0, position = 0;
-		while(exit && i<player.length){
+		int position = 0;
+		for(int i = 0;exit && i<player.length;i++){
 			if(player[i] == null){
 				position = i;
 				exit = false;
 			}
-			i++;
 		}
 		return position;
 	}
 
 	public boolean findShirt(int number){
-		int i = 0;
 		boolean stop = false; 
-		while(i<player.length){
-			if(player[i].verifyShirt(number)){
-				if(player[i].getShirtNum() == number){
+		for(int i = 0;i<player.length;i++){
+			if(player[i] != null){
+			 	boolean shirt = player[i].verifyShirt(number);
+				if(shirt && player[i].getShirtNum() == number){
 					stop = true;
 				}
 			}
@@ -130,28 +132,79 @@ public class Team{
 	}
 
 	public MainCoach addCoach(String name, String id, int salary,int years,int amountTeams,ArrayList<String> championships){ 
-		MainCoach main = new MainCoach(name, id, salary,years,amountTeams,championships);
+		main = new MainCoach(name, id, salary,years,amountTeams,championships);
 		countMain += 1;
 		return main;
 	}
 
 	public AssistantCoach addAss(String name, String id, int salary,int years,int opt,int master[]){ 
 		int i = findAss();
+		boolean exit = true;
 		Master[] pro = new Master[master.length];
-		for(int m = 0;m<pro.length;m++){
-			pro[m] = assistant[i].putMaster(master[m]);
+		for(int m = 0;m<pro.length && exit;m++){
+			if(pro[m] == null && master[m] >= 1){
+				pro[m] = putMaster(master[m]);
+				exit = false;
+			}
 		}
-		boolean player = assistant[i].player(opt);
-		AssistantCoach obj = new AssistantCoach(name, id, salary,years,player,pro);
-		return obj;
+		boolean player = player(opt);
+		assistant[i] = new AssistantCoach(name, id, salary,years,player,pro);
+		return assistant[i];
+	}
+
+	public Master putMaster(int opt){
+		Master master = null;
+		if(opt == 1){
+			master = Master.OFFENSIVE;
+		}
+		else if(opt == 2){
+			master = Master.DEFFENSIVE;
+		}
+		else if(opt == 3){
+			master = Master.POSSESSION;
+		}
+		else if(opt == 4){
+			master = Master.LAB_PLAYS;
+		}
+		else if(opt == 5){
+			master = Master.GK_COACH;
+		}
+		else if(opt == 6){
+			master = Master.PHY_COACH;
+		}
+		return master;
+	}
+
+	public boolean player(int opt){
+		boolean player = true;
+		if(opt == 2){
+			player = false;
+		}
+		return player;
 	}
 
 	public Players addPlayer(String name, String id, int salary,int number,int position){ 
 		int play = findPlayer();
-		Position pos = player[play].putPosition(position);
-		Players obj = new Players(name, id, salary,number,pos);
-		player[play] = obj;
-		return obj;
+		Position pos = putPosition(position);
+		player[play] =  new Players(name, id, salary,number,pos);
+		return player[play];
+	}
+
+	public Position putPosition(int opt){
+		Position position = null;
+		if(opt == 1){
+			position = Position.GK;
+		}
+		else if(opt == 2){
+			position = Position.DEF;
+		}
+		else if(opt == 3){
+			position = Position.CM;
+		}
+		else if(opt == 4){
+			position = Position.CF;
+		}
+		return position;
 	}
 
 	public String deleteEmploy(String id){
@@ -163,17 +216,19 @@ public class Team{
 		}
 		boolean exit = true;
 		for(int i = 0;i<assistant.length && exit;i++){
-			if(assistant[i].getId().equalsIgnoreCase(id)){
+			if(assistant[i] != null && assistant[i].getId().equalsIgnoreCase(id)){
+				String name = assistant[i].getName();
 				assistant[i] = null;
-				message = "El asistente "+assistant[i].getName()+" fue despedido";
+				message = "El asistente "+name+" fue despedido";
 				exit = false;
 			}	
 		}
 		boolean stop;
 		for(int m = 0;m<player.length;m++){
-			if(player[m].getId().equalsIgnoreCase(id)){
+			if(player[m] != null && player[m].getId().equalsIgnoreCase(id)){
+				String playName = player[m].getName();
 				player[m] = null;
-				message = "El jugador "+player[m].getName()+" fue despedido";
+				message = "El jugador "+playName+" fue despedido";
 			}
 		}
 		return message;
@@ -197,7 +252,7 @@ public class Team{
 			if(m == -1){
 				exit = true;
 			}else{
-				Master newPro = assistant[i].putMaster(master);	
+				Master newPro = putMaster(master);	
 				newMaster[m] = newPro;
 				assistant[i].setMaster(newMaster);
 			}
@@ -210,7 +265,7 @@ public class Team{
 		int position = -1;
 		int p = foundAss(id);
 		for(int i = 0;i<master.length && exit;i++){
-			if(assistant[p].putMaster(pro) != master[i] && master[i] == null){
+			if(putMaster(pro) != master[i] && master[i] == null){
 				exit = false;
 				position = i;
 			}
@@ -240,7 +295,10 @@ public class Team{
 
 	public String getIdPly(String id){
 		int i = foundPly(id);
-		String nit = player[i].getId();
+		String nit = "No hay jugadores con ese ID";
+		if(i > -1){
+			nit = player[i].getId();
+		}
 		return nit;
 	}
 
@@ -270,18 +328,70 @@ public class Team{
 
 	public void setPosition(String id, int position){
 		int i = foundPly(id);
-		player[i].setPosition(player[i].putPosition(position));
+		player[i].setPosition(putPosition(position));
 	}
 
 	public void lineUp(int date[],int def, int mc, int cd,int tactic){
-		int[][] lineUp = lineUps.addLinesUps(cd, mc, def);
-		Formation line = new Formation(date,lineUps.putTactic(tactic),lineUp);
+		int[][] lineUp = addLinesUps(cd, mc, def);
+		Tactic tactics = putTactic(tactic);
+		Formation line = new Formation(date,tactics,lineUp);
 		formation.add(line);
+	}
+
+	public Tactic putTactic(int opt){
+		Tactic tactic = null;
+		if(opt == 1){
+			tactic = Tactic.POSSESSION;
+		}
+		else if(opt == 2){
+			tactic = Tactic.COUNTERATACK;
+		}
+		else if(opt == 3){
+			tactic = Tactic.HIGH_PRESSURE;
+		}
+		else if(opt == 4){
+			tactic = Tactic.DEFAULT;
+		}
+		return tactic;
+	}
+
+	public int[][] addLinesUps(int cd, int cm, int def){
+		int [][]formation = new int[MAX_LONG][MAX_WIDTH];
+		int count1 = 0, count2 = 0, count3 = 0;
+		boolean exit = true, stop = true, end = true;
+		for(int i=1;i<3;i++){	
+			for(int j=1;j<MAX_WIDTH && exit;j++){
+				formation[i][j] = 1;
+				count1+=1;
+				if(count1 == cd){
+					exit = false;
+				}
+			}			
+		}
+		for(int i=4;i<6;i++){	
+			for(int j=1;j<MAX_WIDTH && stop;j++){
+				formation[i][j] = 1;
+				count2+=1;
+				if(count2 == cm){
+					stop = false;
+				}
+			}			
+		}
+		for(int i=7;i<9;i++){	
+			for(int j=1;j<MAX_WIDTH && end;j++){
+				formation[i][j] = 1;
+				count3+=1;
+				if(count3 == def){
+					end = false;
+				}	
+			}			
+		}
+		return formation;
 	}
 
 	public void asingOffice(ArrayList<Employees>employ){
 		boolean exit = true;
-		for(int i = 0;exit;i++){
+		for(int i = 0;i<employ.size() && exit;i++){
 			if(employ.get(i) instanceof AssistantCoach || employ.get(i) instanceof MainCoach){
 				asign(employ.get(i));
 			}
@@ -290,20 +400,31 @@ public class Team{
 
 	public void asign(Employees employ){
 		boolean exit = true;
+		int count = 0;
 		for(int i = 0;i<MAX_OFFICE && exit;i+=2){
 			for(int j = 0;j<MAX_OFFICE && exit;j+=2){
-				if(offices[i][j] == null){
-					if(employ instanceof MainCoach){
-						offices[i][j] = (MainCoach)employ;
-						exit = false; 
-					}
-					else if(employ instanceof AssistantCoach){
-						offices[i][j] = (AssistantCoach)employ;
-						exit = false; 
-					}
+				if((Employees)offices[i][j] != employ || (Employees)offices[i][j] != employ){
+					count += 1;
 				}
 			}
 		}
+
+		if(count == 9){
+			for(int i = 0;i<MAX_OFFICE && exit;i+=2){
+				for(int j = 0;j<MAX_OFFICE && exit;j+=2){
+					if(offices[i][j] == null){
+						if(employ instanceof MainCoach){
+							offices[i][j] = (MainCoach)employ;
+							exit = false; 
+						}
+						else if(employ instanceof AssistantCoach){
+							offices[i][j] = (AssistantCoach)employ;
+							exit = false; 
+						}
+					}
+				}
+			}
+		}	
 	}
 
 	public String offices(){
@@ -319,7 +440,7 @@ public class Team{
 					exit = false;
 				}
 				else if(offices[i][j] == null){
-					message += "[x]";
+					message += " [Vacio] ";
 				}
 			}
 			message += "\n";
@@ -340,7 +461,7 @@ public class Team{
 	}
 
     public String showInfoTeam(){
-        String message = "***** Equipo *****\n"+
+        String message = "\n***** Equipo *****\n"+
         " -Nombre del Equipo: "+getName();
         return message;
     }
@@ -370,7 +491,10 @@ public class Team{
 	   	List<Players>installations = Arrays.asList(player);
 	 	Collections.shuffle(installations);
 	  	installations.toArray(player);
-
+	  	message = " \n***** Jugadores en los Camerinos *****\n";
+	  	if(player[0] == null && player[1] == null){
+			message = " \nNo hay jugadores en los Camerinos\n";
+	  	}
 	  	for(int i = 0;i<player.length;i++){
 	  		if(player[i] != null){
 	  			message += installationsA(installations.get(i));
@@ -411,9 +535,14 @@ public class Team{
 	   	List<Players>installations = Arrays.asList(player);
 	 	Collections.shuffle(installations);
 	  	installations.toArray(player);
+	  	message = " \n***** Jugadores en los Camerinos *****\n";
 
+	  	if(player[0] == null && player[1] == null){
+			message = " \nNo hay jugadores en los Camerinos\n";
+	  	}
 	  	for(int i = 0;i<player.length;i++){
 	  		if(player[i] != null){
+	  			message = " \n***** Jugadores en los Camerinos *****\n";
 	  			message += installationsB(installations.get(i));
 	  		}
 	   	}
@@ -442,7 +571,7 @@ public class Team{
     	if(main != null){
     		message += main.toString()+"\n";
     	}else
-    		message += "El Equipo no tiene entrenador principal\n";
+    		message += "\nEl Equipo no tiene entrenador principal\n";
     	if(assistant[0] != null){
     		boolean exit = true;
     		for(int i = 0;i<assistant.length && exit;i++){
@@ -452,9 +581,9 @@ public class Team{
     				message += assistant[i].toString()+"\n";
     		}
     	}else 
-    		message += "El Equipo no tiene entrenadores asistentes\n";
+    		message += "\nEl Equipo no tiene entrenadores asistentes\n";
 
-    	if(player[0] != null){
+    	if(player[0] != null || player[1] != null){
     		boolean stop = true;
     		for(int i = 0;i<player.length && stop;i++){
     			if(player[i] == null){
@@ -463,8 +592,12 @@ public class Team{
     				message += player[i].toString()+"\n";
     		}	
     	}else 
-    		message += "El Equipo no tiene jugadores\n";
+    		message += "\nEl Equipo no tiene jugadores\n";
     	return message;
+    }
+
+    public void getNameTeam(String name){
+    	setName(name);
     }
 }
 

@@ -89,7 +89,7 @@ public class Main {
 	         System.out.println("************************************************************************");
 	         System.out.println("  (1.) Contratar empleados                                               |");
 	         System.out.println("  (2.) Despedir empleados                                                |");
-	         System.out.println("  (3.) Actualizar informacion de un empleado                             |");
+	         System.out.println("  (3.) Actualizar informacion                                            |");
 	         System.out.println("  (4.) Agregar alineacion a un equipo                                    |");
 	         System.out.println("  (5.) Mostrar informacion de todo el club                               |");
 	         System.out.println("  (6.) Mostrar informacion especifica                                    |");
@@ -111,8 +111,8 @@ public class Main {
          	    break;
 
          	case 3:
-         		System.out.println("\n ***** Actualizar informacion de un empleado *****");
-         		menuAct();
+         		System.out.println("\n ***** Actualizar informacion *****");
+         		menuActInfo();
          	    break;
 
          	case 4:
@@ -127,7 +127,7 @@ public class Main {
 
          	case 6:
          		System.out.println("\n ***** Informacion en especifico *****");
-         		showInfo();
+         		menuTeams();
          	    break;
 
          	case 7:
@@ -202,13 +202,13 @@ public class Main {
 				String nameCham = lector.nextLine();
 				cham.add(nameCham);
 			}
-			System.out.println("\nDe que equipo va a ser entrenador?");
-			String teams = club.showTeams();
-			System.out.println(teams);
-			int opt = lector.nextInt();
-			lector.nextLine();
 			boolean exit = true;
 			while(exit){
+				System.out.println("\nDe que equipo va a ser entrenador?");
+				String teams = club.showTeams();
+				System.out.println(teams);
+				int opt = lector.nextInt();
+				lector.nextLine();
 				if(opt >= 1 && opt <= 2){
 					String message = club.addEmployee(name,id,salary,years,amount,cham,opt);
 					System.out.println(message);
@@ -237,37 +237,37 @@ public class Main {
 			System.out.println("\nIngrese los anios de experiencia que tiene "+name);
 			int years = lector.nextInt();
 
-			System.out.println("\n"+name+" fue jugador profesional?\n  [1]Si\n  [2]No\n");
-			int opt = lector.nextInt();
-
 			boolean exit = true;
 			while(exit){
+				System.out.println("\n"+name+" fue jugador profesional?\n  [1]Si\n  [2]No\n");
+				int opt = lector.nextInt();
 				if(opt == 1 || opt == 2){
-					System.out.println("Cuantas experticias tiene "+name);
+					System.out.println("Cuantas experticias tiene "+name+"?");
 					int amount = lector.nextInt();
 					if(amount <= 6){
 						int[] masters = new int[amount];
 				
 						for(int i = 0;i<masters.length;i++){
-							System.out.println("\nCual es la experticia #"+(i+1)+" de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"+
+							System.out.println("\nCual es la experticia de "+name+"?\n  [1]Ofensiva\n  [2]Defensiva\n  [3]Posesion\n"+
 							"  [4]Jugadas de laboratorio\n  [5]Entrenador de Arqueros\n  [6]Entrenador fisico\n");
 							int pro = lector.nextInt();
 							if(pro >= 1 && pro <= 6){
 								boolean same = club.findSame(pro,masters);
 								if(!same){
 									masters[i] = pro;
-								}else
+								}else{
 									System.out.println("El asistente ya tiene esa experticia");
+									i--;
+								}
 							}
 							else 
-							System.out.println("\nIngreso un numero NO valido");
+								System.out.println("\nIngreso un numero NO valido");
 						}
 						System.out.println("\nDe que equipo va a ser Asistente?");
 						String teams = club.showTeams();
 						System.out.println(teams);
 						int team = lector.nextInt();
 						lector.nextLine();
-
 						if(team == 1 || team == 2){
 							String message = club.addEmployee(name,id,salary,years,opt,masters,team);
 							System.out.println(message);
@@ -299,16 +299,16 @@ public class Main {
 			System.out.println("\nIngrese el salario que gana "+name);
 			int salary = lector.nextInt();
 
-			System.out.println("\nDe que equipo va a ser jugador?");
-			String teams = club.showTeams();
-			System.out.println(teams);
-			int team = lector.nextInt();
-
 			boolean exit = true;
 			while(exit){
+				System.out.println("\nDe que equipo va a ser jugador?");
+				String teams = club.showTeams();
+				System.out.println(teams);
+				int team = lector.nextInt();
 				if(team >= 1 && team <=2){
 					System.out.println("\nIngrese el numero de la camiseta de "+name);
 					int number = lector.nextInt();
+					lector.nextLine();
 					boolean shirt = club.shirtNum(number,team);
 
 					if(shirt){
@@ -340,11 +340,35 @@ public class Main {
 		System.out.println(message);
 	}
 
+	public void menuActInfo(){
+		boolean exit = true;
+		while(exit){
+			System.out.println("Actualizar informacion de:\n[1] Equipos\n[2] Empleados\n[0] Volver al menu principal");
+			int option = lector.nextInt();
+			lector.nextLine();
+			switch(option){
+
+				case 1:
+					actClub();
+					break;
+				case 2:
+					menuAct();
+					break;
+				case 0:
+					exit = false;
+					break;
+
+				default:
+					System.out.println("Numero invalido");
+			}
+		}
+	}
+
 	public void menuAct(){
 		boolean exit = true;
 		while(exit){
 			System.out.println("Actualizar informacion de:\n[1] Entrenador principal\n[2] Entrenador asistente\n"+
-				"[3] Jugador\n[0] Volver al menu principal");
+				"[3] Jugador\n[0] Atras");
 			int option = lector.nextInt();
 			lector.nextLine();
 			switch(option){
@@ -365,6 +389,25 @@ public class Main {
 				default:
 					System.out.println("Numero invalido");
 			}
+		}
+	}
+
+	public void actClub(){
+		boolean exit = true;
+		while(exit){
+			System.out.println("Que equipo quiere Actualizar?");
+			String teams = club.showTeams();
+			System.out.println(teams);
+			int team = lector.nextInt();
+			lector.nextLine();
+			if(team == 1 || team == 2){
+				System.out.println("\nIngrese el nuevo nombre del equipo");
+				String name = lector.nextLine();
+				String message = club.setNameTeam(name,team);
+				System.out.println(message);
+				exit = false;
+			}else
+				System.out.println("Numero INVALIDO");
 		}
 	}
 
@@ -474,7 +517,7 @@ public class Main {
 			int option = lector.nextInt();
 			lector.nextLine();
 
-			System.out.println("Ingrese el ID del Asistente");
+			System.out.println("Ingrese el ID del Jugador");
 			String id = lector.nextLine();
 			boolean stop = club.findEmployee(id);
 			if(!stop){
@@ -533,7 +576,8 @@ public class Main {
 		boolean exit = true;
 		while(exit){	
 			System.out.println("\nA que equipo va a agregar la alineacion?");
-			club.showTeams();
+			String teams = club.showTeams();
+			System.out.println(teams);
 			int team = lector.nextInt();
 			int[] date = dates();
 
@@ -546,15 +590,15 @@ public class Main {
 					System.out.println("\nCuantos defensas tiene la formacion?");
 					int def = lector.nextInt();
 
-					if(def > 1 && def < 10){
+					if(def >= 1 && def < 10){
 						System.out.println("\nCuantos mediocampistas tiene la formacion?");
 						int mc = lector.nextInt();
 
-						if(mc > 1 && mc < 10){
+						if(mc >= 1 && mc < 10){
 							System.out.println("\nCuantos Delanteros tiene la formacion?");
 							int cd = lector.nextInt();
 
-							if(cd > 1 && cd < 10){
+							if(cd >= 1 && cd < 10){
 								String message = club.addLineUps(team,def,mc,cd,date,tactic);
 								System.out.println(message);
 								if(message.equals("Alineacion creada!")){
@@ -581,11 +625,11 @@ public class Main {
 			System.out.println("Introduzca solo el dia en que se creo la formacion");
 			date[0] = lector.nextInt();
 
-			if(date[0]<31){
+			if(date[0]<=31){
 				System.out.println("Introduzca solo el mes en que se creo la formacion");
 				date[1] = lector.nextInt();
 				
-				if(date[1]<12){
+				if(date[1]<=12){
 					System.out.println("Introduzca solo el anio en que se creo la formacion");
 					date[2] = lector.nextInt();
 					lector.nextLine();
@@ -622,7 +666,7 @@ public class Main {
 		while(!stop){
 			System.out.println("\nQue opcion desea realizar?\n");
 			System.out.println("[1] Informacion de el equipo A\n[2] Informacion del equipo B\n"+
-				"[3]Entrenadores en las oficinas\n[0]Sal  ir al menu principal\n");
+				"[3] Entrenadores en las oficinas\n[0] Salir al menu principal\n");
 			int option = lector.nextInt();
 			lector.nextLine();
 			switch(option){

@@ -31,40 +31,9 @@ public class AssistantCoach extends Coach {
 		this.master = master;
 	}
 
-	public Master putMaster(int opt){
-		Master master = null;
-		if(opt == 1){
-			master = Master.OFFENSIVE;
-		}
-		else if(opt == 2){
-			master = Master.DEFFENSIVE;
-		}
-		else if(opt == 3){
-			master = Master.POSSESSION;
-		}
-		else if(opt == 4){
-			master = Master.LAB_PLAYS;
-		}
-		else if(opt == 5){
-			master = Master.GK_COACH;
-		}
-		else if(opt == 6){
-			master = Master.PHY_COACH;
-		}
-		return master;
-	}
-
-	public boolean player(int opt){
-		boolean player = true;
-		if(opt == 2){
-			player = false;
-		}
-		return player;
-	}
-
 	public String getMasters(){
 		String message = "";
-		for(int i = 0;1<getMaster().length;i++){
+		for(int i = 0;i<getMaster().length;i++){
 			message += getMaster()[i];
 		}
 		return message;
@@ -78,7 +47,7 @@ public class AssistantCoach extends Coach {
 		}else
 			really = "No fue jugador profesional";
 		masters = getMasters();
-		message = "\n ** Entrenador Asistente ** \n"+super.toString()+"\n -"+really+"\n -Experticias: "+getMasters();
+		message = "\n ** Entrenador Asistente ** \n"+super.toString()+"\n -"+really+"\n -Experticias: "+getMasters()+"\n";
 		return message;
 	}
 }

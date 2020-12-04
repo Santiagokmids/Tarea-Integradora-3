@@ -23,6 +23,7 @@ public class Players extends Employees implements Price, Level {
 		this.shirtNum = shirtNum;
 		goalsAmount = 0;
 		averageCal = 0;
+		this.position = position;
 	}//end Constructor
 
 	public boolean verifyShirt(int number){
@@ -63,23 +64,6 @@ public class Players extends Employees implements Price, Level {
 
 	public void setPosition(Position position){
 		this.position = position;
-	}
-
-	public Position putPosition(int opt){
-		Position position = null;
-		if(opt == 1){
-			position = Position.GK;
-		}
-		else if(opt == 2){
-			position = Position.DEF;
-		}
-		else if(opt == 3){
-			position = Position.CM;
-		}
-		else if(opt == 4){
-			position = Position.CF;
-		}
-		return position;
 	}
 
 	public double marketPrice(){
@@ -123,9 +107,9 @@ public class Players extends Employees implements Price, Level {
 			average = "No hay Calificacion Promedio";
 		}else
 			average = ""+getAverage();
-		message = " ** Jugador Profesional ** "+super.toString()+"\n -Numero de camiseta: "+getShirtNum()+
-		"\n -Calificacion Promedio: "+average+"\n Posicion: "+getPosition()+
-		"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "+level();
+		message = " ** Jugador Profesional ** \n"+super.toString()+"\n -Numero de camiseta: "+getShirtNum()+
+		"\n -Numero de goles: "+getGoals()+"\n -Calificacion Promedio: "+average+"\n -Posicion: "+getPosition()+
+		"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "+level()+"\n";
 		return message;
 	}
 

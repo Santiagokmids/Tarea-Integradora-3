@@ -37,7 +37,8 @@ public class MainCoach extends Coach implements Price, Level{
 	}
 
 	public double level(){
-		double level = 5 + ((getCham().size() + 1) / 10);
+		double level;
+		level = (5 + getCham().size())/10.0;
 		return level;
 	}
 
@@ -48,7 +49,7 @@ public class MainCoach extends Coach implements Price, Level{
 			teams += getCham().get(i)+" - ";
 		}
 		message = "\n ** Entrenador Principal ** \n"+super.toString()+"\n -Equipos Totales: "+getAmountTeams()+
-		"\n -Campeonatos ganados: "+teams+"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "+level();
+		"\n -Campeonatos ganados: "+teams+"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "+level()+"\n";
 		return message;
 	}
 }
