@@ -172,7 +172,7 @@ public class Players extends Employees implements Price, Level {
 			average = "No hay Calificacion Promedio";
 		}else
 			average = ""+getAverage();
-		message = " ** Jugador Profesional ** \n"+super.toString()+"\n -Numero de camiseta: "+getShirtNum()+
+		message = "\n ** Jugador Profesional ** \n"+super.toString()+"\n -Numero de camiseta: "+getShirtNum()+
 		"\n -Numero de goles: "+getGoals()+"\n -Calificacion Promedio: "+average+"\n -Posicion: "+getPosition()+
 		"\n -Precio en el mercado: "+marketPrice()+"\n -Nivel: "+level()+"\n";
 		return message;

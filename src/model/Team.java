@@ -817,7 +817,7 @@ public class Team{
     	boolean exit = true;
     	for(int i = 0;i<MAX_WIDTH;i++){
 			for(int j = 0;j<MAX_WIDTH;j++){
-				offices[i][j] = null;
+				installationsA[i][j] = null;
 			}
 		}
     	for(int i = 0;i<MAX_WIDTH && exit;i++){
@@ -876,7 +876,7 @@ public class Team{
     	boolean exit = true;
     	for(int i = 0;i<MAX_WIDTH;i++){
 			for(int j = 0;j<MAX_OFFICE;j++){
-				offices[i][j] = null;
+				installationsB[i][j] = null;
 			}
 		}
     	for(int i = 0;i<MAX_WIDTH && exit;i++){

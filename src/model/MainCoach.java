@@ -75,7 +75,7 @@ public class MainCoach extends Coach implements Price, Level{
        */
 	public double level(){
 		double level;
-		level = (5 + getCham().size())/10.0;
+		level = 5+(getCham().size()/10.0);
 		return level;
 	}//end level
 
