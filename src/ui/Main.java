@@ -75,8 +75,8 @@ public class Main {
 
 	 /** 
 		*Name: Menu.
-		*Show the menu for choose one option <br> 
-		*<b> post: </b> The menu is started.
+		*Show the main menu for choose one option <br> 
+		*<b> post: </b> The main menu is started.
 	   */
 	public void Menu(){
 	   	 boolean stop = false;
@@ -141,6 +141,11 @@ public class Main {
 	    }
 	}//End Menu
 
+	 /** 
+		*Name: menuEmploy.
+		*Show the menu of employees to create <br> 
+		*<b> post: </b> The user choose one option.
+	   */
 	public void menuEmploy(){
 		boolean stop = false;
 		while(!stop){
@@ -170,8 +175,13 @@ public class Main {
                 	System.out.println("\nIngreso un numero NO valido");
 			}
 		}
-	}
+	}//End menuEmploy
 
+		/** 
+		*Name: addCoach.
+		*Metod for add a coach to the club and a team <br> 
+		*<b> post: </b> The coach was created.
+	   */
 	public void addCoach(){
 		System.out.println("\nIngrese el nombre del entrenador principal");
 		String name = lector.nextLine();
@@ -220,8 +230,13 @@ public class Main {
 		}
 		else
 			System.out.println("\nEl entrenador ya esta en el club, no se pudo agregar");
-	}
+	}//End addCoach
 
+	 /** 
+		*Name: addAssis.
+		*Method for add a assistant Coach to the club and a team<br> 
+		*<b> post: </b> The menu is started.
+	   */
 	public void addAssis(){
 		System.out.println("\nIngrese el nombre del entrenador Asistente");
 		String name = lector.nextLine();
@@ -285,8 +300,13 @@ public class Main {
 		}
 		else
 			System.out.println("\nEl entrenador ya esta en el club, no se pudo agregar");
-	}
+	}//End addAssis
 
+	 /** 
+		*Name: addPlayer.
+		*Method for add a player to the club and a team<br> 
+		*<b> post: </b> The menu is started.
+	   */
 	public void addPlayer(){
 		System.out.println("\nIngrese el nombre del jugador");
 		String name = lector.nextLine();
@@ -333,15 +353,25 @@ public class Main {
 		}
 		else
 			System.out.println("\nEl jugador ya esta en el club, no se pudo agregar");
-	}
+	}//End addPlayer
 
+	 /** 
+		*Name: delete.
+		*Delete employee of one team<br> 
+		*<b> post: </b> The employee was delete.
+	   */
 	public void delete(){
 		System.out.println("\nIngrese el ID del empleado que va a Despedir");
 		String id = lector.nextLine();
 		String message = club.deleteEmployee(id);
 		System.out.println(message);
-	}
+	}//End delete
 
+	 /** 
+		*Name: menuActInfo.
+		*Show the menu to update info of teams or employees <br> 
+		*<b> post: </b> The option was select.
+	   */
 	public void menuActInfo(){
 		boolean exit = true;
 		while(exit){
@@ -364,8 +394,13 @@ public class Main {
 					System.out.println("Numero invalido");
 			}
 		}
-	}
+	}//End menuActInfo
 
+	 /** 
+		*Name: menuAct.
+		*Show the menu to update info of employees <br> 
+		*<b> post: </b> The option was select.
+	   */
 	public void menuAct(){
 		boolean exit = true;
 		while(exit){
@@ -392,8 +427,13 @@ public class Main {
 					System.out.println("Numero invalido");
 			}
 		}
-	}
+	}//End menuAct
 
+	 /** 
+		*Name: actClub.
+		*Method to update info of one team <br> 
+		*<b> post: </b> The info was update.
+	   */
 	public void actClub(){
 		boolean exit = true;
 		while(exit){
@@ -411,8 +451,13 @@ public class Main {
 			}else
 				System.out.println("Numero INVALIDO");
 		}
-	}
+	}//End actClub
 
+	 /** 
+		*Name: actCoach.
+		*Method to update info of one coach <br> 
+		*<b> post: </b> The coach was update.
+	   */
 	public void actCoach(){
 		boolean exit = true;
 		while(exit){
@@ -462,8 +507,13 @@ public class Main {
 			else 
 				System.out.println("El entrenador no existe");
 		}
-	}
+	}//End actCoach
 
+	 /** 
+		*Name: actAssis.
+		*Method to update info of one assistant coach <br> 
+		*<b> post: </b> The assistant was update.
+	   */
 	public void actAssis(){
 		boolean exit = true;
 		while(exit){
@@ -509,8 +559,13 @@ public class Main {
 			else
 				System.out.println("El asistente NO existe");
 		}
-	}
+	}//End actAssis
 
+	 /** 
+		*Name: actPlayer.
+		*method to update info of one player <br> 
+		*<b> post: </b> The player was update.
+	   */
 	public void actPlayer(){
 		boolean exit = true;
 		while(exit){
@@ -572,8 +627,13 @@ public class Main {
 			}else
 				System.out.println("El jugador NO existe");
 		}
-	}
+	}//End actPlayer
 
+	 /** 
+		*Name: addLineUps.
+		*Method for add a lineUp to a team <br> 
+		*<b> post: </b> The lineup was add.
+	   */	
 	public void addLineUps(){
 		boolean exit = true;
 		while(exit){	
@@ -622,8 +682,14 @@ public class Main {
 			}else
 				System.out.println("Numero INVALIDO");
 		}
-	}
+	}//end addLineUps
 
+	 /** 
+		*Name: dates.
+		*Method for create a date of one lineUp <br> 
+		*<b> post: </b> The date was created.
+		*@return int[] date. This array have a dates about when was add the lineUp .
+	   */
 	public int[] dates(){
 		int[] date = new int[3];
 		boolean exit = true;
@@ -647,8 +713,13 @@ public class Main {
 				System.out.println("Dia INCORRECTO!");
 		}
 		return date;
-	}
+	}//End dates
 
+	 /** 
+		*Name: showInfo.
+		*Method that show the info of the club, info about all in the club <br> 
+		*<b> post: </b> The information was given.
+	   */	
 	public void showInfo(){
 		String show = "";
 		show = club.showInfoClub()+"\n";
@@ -665,8 +736,13 @@ public class Main {
 		show += club.showOffices()+"\n";
 
 		System.out.println(show);
-	}
+	}//end ShowInfo
 
+	 /** 
+		*Name: menuTeams.
+		*Menu for see info about one thing <br> 
+		*<b> post: </b> The info of one option was will be given.
+	   */	
 	public void menuTeams(){
 		boolean stop = false;
 		while(!stop){
@@ -697,8 +773,13 @@ public class Main {
                 	System.out.println("\nIngreso un numero NO valido");
 			}
 		}
-	}
+	}//end menuTeams
 
+	 /** 
+		*Name: showInfoTeamA.
+		*Method that show info about the team A<br> 
+		*<b> post: </b> The information about the team A was given.
+	   */	
 	public void showInfoTeamA(){
 		String show = "";
 		show += club.showInfoA()+"\n";
@@ -706,8 +787,13 @@ public class Main {
 		show += club.linesA()+"\n";
 		show += club.installations()+"\n";
 		System.out.println(show);
-	}
+	}//end ShowInfoTeamA
 
+ 	/** 
+		*Name: showInfoTeamB.
+		*Method that show info about the team B <br> 
+		*<b> post: </b> The information about the team B was given.
+	   */	
 	public void showInfoTeamB(){
 		String show = "";
 		show += club.showInfoB()+"\n";
@@ -715,12 +801,17 @@ public class Main {
 		show += club.linesB()+"\n";
 		show += club.installationsB()+"\n";
 		System.out.println(show);
-	}
+	}//end showInfoTeamB
 
+	 /** 
+		*Name: showOffice.
+		*Method that show offices of the club <br> 
+		*<b> post: </b> The information about the offices of the club was given.
+	   */	
 	public void showOffice(){
 		String show = "";
 		show = club.showOffices()+"\n";
 		System.out.println(show);
-	}
+	}//End showOffice
 
-}
+}//End Main

@@ -7,4 +7,4 @@ package model;
    */
 public enum Tactic{
 	POSSESSION, COUNTERATACK, HIGH_PRESSURE,DEFAULT;
-}
+}//end Tactic

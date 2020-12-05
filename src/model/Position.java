@@ -7,4 +7,4 @@ package model;
    */
 public enum Position{
 	GK, DEF, CM, CF;
-}
+}//end Position

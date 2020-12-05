@@ -7,4 +7,4 @@ package model;
    */
 public enum Master{
 	OFFENSIVE, DEFFENSIVE, POSSESSION, LAB_PLAYS, GK_COACH, PHY_COACH;
-}
+}//end Master
