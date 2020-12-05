@@ -815,6 +815,11 @@ public class Team{
     public String installationsA(Players player){
     	String message = "";
     	boolean exit = true;
+    	for(int i = 0;i<MAX_WIDTH;i++){
+			for(int j = 0;j<MAX_WIDTH;j++){
+				offices[i][j] = null;
+			}
+		}
     	for(int i = 0;i<MAX_WIDTH && exit;i++){
 			for(int j = 0;j<MAX_WIDTH && exit;j+=2){
 				if(installationsA[i][j] == null && player != null){
@@ -869,6 +874,11 @@ public class Team{
     public String installationsB(Players player){
     	String message = "";
     	boolean exit = true;
+    	for(int i = 0;i<MAX_WIDTH;i++){
+			for(int j = 0;j<MAX_OFFICE;j++){
+				offices[i][j] = null;
+			}
+		}
     	for(int i = 0;i<MAX_WIDTH && exit;i++){
 			for(int j = 0;j<MAX_OFFICE && exit;j+=2){
 				if(installationsB[i][j] == null && player != null){
